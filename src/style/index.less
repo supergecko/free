@@ -1,0 +1,56 @@
+/**
+ * 全局样式
+ */
+
+@import url('./normalize.css');
+@import url('./base.css');
+@import url('./fonts.css');
+
+body {
+  background-color: #f9f8fd;
+  font-family: PingFang SC;
+}
+
+// 通用版心
+.layout {
+  width: 1280px;
+  margin: 0 auto;
+}
+
+// elementUi组件库样式自定义
+.el-tabs__item {
+  font-size: 16px;
+  &:hover {
+    color: unset;
+  }
+  &.is-active {
+    color: #ea4c89;
+  }
+}
+
+.el-tabs__active-bar {
+  background-color: #ea4c89;
+}
+
+.el-input {
+  input {
+    background-color: #f3f3f4;
+    border-radius: 8px;
+    border: none;
+  }
+}
+
+.el-checkbox__label {
+  color: unset !important;
+  padding-left: 5px;
+}
+
+.el-checkbox__inner {
+  background-color: unset !important;
+  border-color: #ea4c89 !important;
+  &::after {
+    border: 1px solid #ea4c89;
+    border-left: 0;
+    border-top: 0;
+  }
+}

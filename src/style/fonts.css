@@ -1,0 +1,53 @@
+/* 
+    字体图标
+*/
+@font-face {
+    font-family: "iconfont"; /* Project id 2699923 */
+    src: url('//at.alicdn.com/t/font_2699923_caoxses2jsb.woff2?t=1632708324708') format('woff2'),
+         url('//at.alicdn.com/t/font_2699923_caoxses2jsb.woff?t=1632708324708') format('woff'),
+         url('//at.alicdn.com/t/font_2699923_caoxses2jsb.ttf?t=1632708324708') format('truetype');
+  }
+  
+  .iconfont {
+    font-family: "iconfont" !important;
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  .icon-fenxiang:before {
+    content: "\e60d";
+  }
+  
+  .icon-tijiao:before {
+    content: "\e67d";
+  }
+  
+  .icon-shijian:before {
+    content: "\e614";
+  }
+  
+  .icon-gonggao:before {
+    content: "\e6a0";
+  }
+  
+  .icon-icon-test:before {
+    content: "\e61e";
+  }
+  
+  .icon-xianshi:before {
+    content: "\e602";
+  }
+  
+  .icon-fabu:before {
+    content: "\e65f";
+  }
+  
+  .icon-jiedan:before {
+    content: "\e6a3";
+  }
+  
+  .icon-tuandui:before {
+    content: "\e607";
+  }
