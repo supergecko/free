@@ -20,6 +20,16 @@ const routes = [
     component: () => import('@/views/seek')
   },
   {
+    path: '/orderHire',
+    name: 'orderInfo',
+    component: () => import('@/views/order/hire')
+  },
+  {
+    path: '/orderReceiving',
+    name: 'orderInfo',
+    component: () => import('@/views/order/receiving')
+  },
+  {
     path: '/nextStep',
     name: 'nextStep',
     component: () => import('@/views/nextStep')
@@ -28,6 +38,21 @@ const routes = [
     path: '/userInfo',
     name: 'userInfo',
     component: () => import('@/views/userInfo')
+  },
+  {
+    path: '/workerInfo',
+    name: 'workerInfo',
+    component: () => import('@/views/worker')
+  },
+  {
+    path: '/workerTeam',
+    name: 'workerTeam',
+    component: () => import('@/views/worker/workerTeam')
+  },
+  {
+    path: '/workerList',
+    name: 'workerList',
+    component: () => import('@/views/worker/workerList')
   },
   {
     path: '/userForm',

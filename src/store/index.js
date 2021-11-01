@@ -4,19 +4,24 @@ import Vuex from 'vuex'
 import { getItem, setItem } from '@/utils/local'
 
 const USERKEY = 'userKey'
-
+const TOKEN = 'token'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
     userKey: getItem(USERKEY),
-	isLogin:false
+	isLogin:false,
+	token:getItem(TOKEN)
   },
   mutations: {
     setUser(state, userKey) {
       state.userKey = userKey
       setItem(USERKEY, userKey)
-    }
+    },
+	setToken(state, token) {
+	  state.token = token
+	  setItem(TOKEN, token)
+	},
   },
   actions: {
   },

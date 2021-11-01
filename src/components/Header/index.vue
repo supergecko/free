@@ -49,7 +49,7 @@
 			}
 		},
 		computed: {
-			...mapState(['userKey']) // 读取用户信息
+			...mapState(['userKey','token']) // 读取用户信息
 		},
 		methods: {
 			// 用户注册 
@@ -71,7 +71,7 @@
 			// 获取用户详情
 			async getUserInfo() {
 				try {
-					const {data} = await userId(this.userKey)
+					const {data} = await userId(this.userKey,this.token)
 					console.log('获取用户详情', data)
 				} catch (err) {
 					console.log(err)

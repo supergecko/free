@@ -20,12 +20,14 @@
 					</div>
 				</div>
 				<!-- 任务列表每项 -->
-				<div class="list-item" v-for="(item, index) in 5" :key="index">
+				<div class="list-item" v-for="(item, index) in taskList" :key="index">
 					<div class="item-top">
-						<div class="left-wrap">
-							<div class="avatar"></div>
+						<div class="left-wrap" @click="goToOrderInfo()">
+							<div class="avatar">
+								<img :src="item.userAvatar" style="width: 48px;height: 48px;border-radius: 50%;" />
+							</div>
 							<div>
-								<p class="title">手机商城Web定制版</p>
+								<p class="title">{{item.hireMission.missionName}}</p>
 								<div class="info">
 									<span class="name">
 										<i class="el-icon-user-solid"></i>
@@ -37,30 +39,34 @@
 									</span>&nbsp;
 									<span class="time">
 										<i class="iconfont icon-shijian"></i>
-										发布于二分钟前
+										{{item.hireMission.releaseDate}}
 									</span>
 								</div>
 							</div>
 						</div>
 						<div class="price">
 							<span>价格:</span>&nbsp;
-							<span>8~10万</span>
+							<span>{{item.hireMission.missionBudgets}}</span>
 						</div>
 					</div>
 					<div class="item-middle">
 						<div @click="taskDetail" class="item-content">
-							需要一位WEB美工完成页面，有设计和程序员配合。商城是大商创程序开发的。已经对手机WEB页面重新设计，可提供文件。 包含商城手机WEB首页，列表，宝贝详情，购物，...
+							{{item.hireMission.missionProfile}}
 						</div>
 					</div>
 					<div class="item-bottom">
 						<div>
-							<el-tag type="success">代发</el-tag>
-							<el-tag type="info">个人</el-tag>
-							<el-tag type="warning">设计</el-tag>
-							<el-tag type="danger">3 ~ 6个月</el-tag>
+							<el-tag type="success" v-if="item.hireMission.substitute==1">
+								代发
+							</el-tag>
+							<el-tag type="info">
+								{{item.hireMission.biddingMethod==0? "通用":item.hireMission.biddingMethod == 1 ? "个人":"团队"}}
+							</el-tag>
+							<el-tag type="warning">{{item.hireMission.missionType}}</el-tag>
+							<el-tag type="danger">{{item.hireMission.missionCycle}}</el-tag>
 						</div>
 						<div>
-							<span>投标数: 24/50人</span>
+							<span>投标数: {{item.hireMission.tendersNum}}/50人</span>
 							<span class="share">
 								<i class="iconfont icon-fenxiang"></i>
 								分享
@@ -90,8 +96,8 @@
 				<div class="type flex">
 					<span class="title">类型:</span>
 					<div class="checked">
-						<el-checkbox-group v-model="checkList">
-							<el-checkbox :label="item" v-for="(item, index) in typeText" :key="index">
+						<el-checkbox-group v-model="checkList" @change="test">
+							<el-checkbox :label="item" v-for="(item, index) in typeText" :key="index" >
 							</el-checkbox>
 						</el-checkbox-group>
 					</div>
@@ -106,7 +112,7 @@
 					</div>
 				</div>
 				<!-- 筛选按钮 -->
-				<div class="my-btn">筛选结果</div>
+				<div class="my-btn" @click="screenList">筛选结果</div>
 				<!-- /筛选按钮 -->
 			</div>
 			<!-- /筛选区 -->
@@ -137,23 +143,44 @@
 				checkList: ['全部'],
 				taskList: [], // 任务列表数据
 				total: 0, // 列表总条数
-				pageSize: 5 // 页容量
+				pageSize: 5 ,// 页容量
+				missionType:'',//类型
 			}
 		},
 		computed: {
 			...mapState(['userKey']) // 读取用户信息
 		},
 		methods: {
+			test(e){
+				console.log(e)
+			},
+			//筛选
+			screenList(){
+				this.currentPage = 1
+				this.getList()
+			},
+			goToOrderInfo() {
+				this.$router.push({
+					path: '/orderHire'
+				})
+			},
 			// 页容量改变时
 			handleSizeChange() {},
 			// 当前页改变时
-			handleCurrentChange() {},
+			handleCurrentChange(e) {
+				this.currentPage = e
+				this.getList()
+			},
 			// 上一页
 			previousPage() {
+				this.currentPage--
+				this.getList()
 				console.log('上一页')
 			},
 			// 下一页
 			nextPage() {
+				this.currentPage++
+				this.getList()
 				console.log('下一页')
 			},
 			// 查看任务详情
@@ -168,13 +195,18 @@
 			// 任务列表
 			getList() {
 				let data = {
-					pageNum:1,
-					pageSize:15
+					missionName: this.keyword,
+					missionType:this.missionType,
+					pageNum: this.currentPage,
+					pageSize: this.pageSize
 				}
 				list(data).then(res => {
 					if (res.data.code === 200) {
 						this.taskList = res.data.rows
 						this.total = res.data.total
+						// if (res.data.rows.length < this.pageSize) {
+						// 	this.$message('最后一页啦')
+						// }
 					}
 				})
 			}
@@ -192,7 +224,7 @@
 
 			.list {
 				width: 840px;
-				height: 1320px;
+				padding-bottom: 45px;
 				float: left;
 				border-radius: 8px;
 				background-color: #fff;
