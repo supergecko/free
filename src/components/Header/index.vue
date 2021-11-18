@@ -17,7 +17,7 @@
 				<span class="register" @click="register">注册</span>
 			</div>
 			
-			<div style="display: flex;align-items: center;" v-if="userKey">
+			<div style="display: flex;align-items: center;" v-if="userKey && userInfo">
 				<div style="margin-right: 46px;">
 					<el-badge :value="5" :max="99" class="item">
 						<img  src="../../assets/order.png" style="width: 24px;height: 24px;"/>
@@ -28,8 +28,8 @@
 						<img  src="../../assets/remind.png" style="width: 24px;height: 24px;"/>
 					</el-badge>
 				</div>
-				<div @click="openUserInfo()">
-					<img src="../../assets/QR_code.png"  style="width: 42px;height: 42px;border-radius: 50%;"/>
+				<div @click="openUserInfo()" class="userHeadAvatar">
+					<img :src="userInfo.user.userAvatar"  style="width: 42px;height: 42px;border-radius: 50%;"/>
 				</div>
 			</div>
 			
@@ -49,7 +49,7 @@
 			}
 		},
 		computed: {
-			...mapState(['userKey','token']) // 读取用户信息
+			...mapState(['userKey','userInfo']) // 读取用户信息
 		},
 		methods: {
 			// 用户注册 
@@ -71,20 +71,30 @@
 			// 获取用户详情
 			async getUserInfo() {
 				try {
-					const {data} = await userId(this.userKey,this.token)
-					console.log('获取用户详情', data)
+					const {res} = await userId(this.userKey)
+					// this.$store.commit('setUserInfo')
+					console.log('获取用户详情', res)
 				} catch (err) {
 					console.log(err)
 				}
 			}
 		},
 		created() {
-			this.getUserInfo()
+			// if (this.userKey){
+			// 	this.getUserInfo()
+			// }
 		}
 	}
 </script>
 
 <style lang="less">
+	.userHeadAvatar{
+		width: 42px;
+		height: 42px;
+		border-radius: 24px;
+		background: url('~@/assets/avatar.png') no-repeat;
+		background-size: 100%;
+	}
 	.header-container {
 		height: 80px;
 		background-color: #fff;

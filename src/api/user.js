@@ -43,9 +43,6 @@ export const userId = (userId,token) => {
 	return request({
 		method: 'get',
 		url: `/api/user/${userId}`,
-		headers:{
-			'token': token,
-		},
 	})
 }
 

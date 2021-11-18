@@ -16,7 +16,9 @@
 				<div class="headInfoWarp">
 					<div class="headInfoFirstWarp">
 						<div class="userImgWarp">
-							<img src="../../assets/1.jpg" style="width: 120px;height: 120px;border-radius: 50%;"/>
+							<div class="userAvatar">
+								<img :src="userInfo.user.userAvatar" style="width: 120px;height: 120px;border-radius: 50%;"/>
+							</div>
 							<div class="editBtn" @click="editUserInfo()">
 								<img src="../../assets/userInfo/xiugai.png" style="width: 13.75px;height: 15.44px;"  />
 								<div>修改资料</div>
@@ -24,16 +26,16 @@
 						</div>
 						<div class="userInfoRight">
 							<div style="display: flex;margin-top: 7px;">
-								<div class="pinkText" >巴拉巴拉帆帆</div>
+								<div class="pinkText" >{{userInfo.user.nickname}}</div>
 								<!-- 勋章图片放此处 -->
 								<div style="display: flex;align-items: center;margin-left: 15px;">
 									<div class="tuanText">团</div>
 									<div class="companyText">你猜我猜不出科技</div>
 								</div>
 							</div>
-							<div class="pinkText">ID: 384538945</div>
+							<div class="pinkText">ID: {{userInfo.user.userId}}</div>
 							<div class="grayText" style="margin-top: 6px;">粉丝: 8234892人</div>
-							<div class="grayText">电话: 13800000000</div>
+							<div class="grayText">电话: {{userInfo.user.userPhone}}</div>
 							<div style="display: flex;align-items: center;margin-bottom: 10px;margin-top: 5px;">
 								<div class="jineng">技能</div>
 								<div class="jinengLabel">PHP</div>
@@ -81,7 +83,7 @@
 								<div style="color: black;font-size: 20px;margin-left: 5px;">元</div>
 							</div>
 							<div class="grayText3" style="margin-top: 38px;">总收入：32423904290</div>
-							<div class="grayText3" style="margin-top: 7px;">总收入：32423904290</div>
+							<div class="grayText3" style="margin-top: 7px;">总支出：32423904290</div>
 							<div style="display: flex;align-items: center;color: #A6A6A6;margin-top: 40px;">
 								<img src="../../assets/userInfo/Rectangle.png" style="width: 30px;height: 30px;" />
 								<div style="margin-left: 14px;">恭喜雨天团队完成项目，获得奖金<span style="color: #EA4C89;">2000.00</span>元</div>
@@ -124,6 +126,7 @@
 </template>
 
 <script>
+	import { mapState } from 'vuex'
 	export default{
 		data(){
 			return {
@@ -139,6 +142,9 @@
 				]
 			}
 		},
+		computed: {
+			...mapState(['userInfo']) // 读取用户信息
+		},
 		methods:{
 			editUserInfo(){
 				this.$router.push({
@@ -149,11 +155,18 @@
 	}
 </script>
 
-<style>
+<style scoped>
 	.headInfoWarp{
 		height: 458px;
 		margin-left: 30px;
 		padding-top: 50px;
+	}
+	.userAvatar{
+		width: 120px;
+		height: 120px;
+		border-radius: 50%;
+		background: url('~@/assets/avatar.png') no-repeat;
+		background-size: 100%;
 	}
 	.renwuNum{
 		color: #FF7E7E;

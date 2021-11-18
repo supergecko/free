@@ -147,7 +147,7 @@
 						<div style="display: flex;align-items: center;">
 							<img src="../../assets/1.jpg" style="width: 40px;height: 40px;border-radius: 50%;" />
 							<span class="taskItemName">小明</span>
-							<img src="../../assets/worker/shen.png" style="width: 19.64px;height: 14.93px;" />
+							<img src="../../assets/worker/shen.png" style="width: 22px;height: 22px;" />
 						</div>
 						<div class="taskItemAddress">中国·深圳</div>
 					</div>

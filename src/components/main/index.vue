@@ -24,7 +24,7 @@
           class="btns"
           v-if="$route.path !== '/seek'"
         >
-          <span>发布需求</span>
+          <span @click="gotoReleaseTask()">发布需求</span>
           <span>直接雇佣</span>
           <span @click="$router.push('/seek')">寻找人才</span>
         </div>
@@ -60,7 +60,12 @@
 export default {
   name: 'freeMain',
   methods: {
-  
+	//发布需求
+	gotoReleaseTask(){
+		this.$router.push({
+			path: '/releaseTask'
+		})
+	}
   }
 }
 </script>

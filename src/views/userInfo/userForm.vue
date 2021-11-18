@@ -27,16 +27,16 @@
 					<el-form-item label="手机号">
 						<div style="display: flex;align-items: center;">
 							<el-input v-model="form.phone" style="width: 343px;"></el-input>
-							<div class="formEditBtn">
+							<div class="formEditBtn" @click="phoneVisible = true">
 								<img src="../../assets/userInfo/redxiugai.png" style="width: 20px;height: 20px;" />
-								<div>更改</div>
+								<div >更改</div>
 							</div>
 						</div>
 					</el-form-item>
 					<el-form-item label="邮箱">
 						<div style="display: flex;align-items: center;">
 							<el-input v-model="form.email" style="width: 343px;"></el-input>
-							<div class="formEditBtn">
+							<div class="formEditBtn"  @click="emailVisible = true">
 								<img src="../../assets/userInfo/redxiugai.png" style="width: 20px;height: 20px;" />
 								<div>更改</div>
 							</div>
@@ -106,10 +106,45 @@
 		<div class="formRight">
 			<div class="formRightTitle">资料完善程度</div>
 			<div style="margin-top: 123px;margin-bottom: 61px;">
-				<el-progress type="circle" :percentage="75" color="#EA4C89" width="120"></el-progress>
+				<el-progress type="circle" :percentage="75" color="#EA4C89" :width="120"></el-progress>
 			</div>
 			<div class="tips">完善资料有助于提高交易方信任感、成交几率</div>
 		</div>
+
+		<!-- 修改邮箱 -->
+		<el-dialog :visible.sync="emailVisible" center  width="550px" :show-close="showClo" class="myDialogWarp">
+			<div style="padding-top: 49px;">
+				<el-form :model="form" >
+					<el-form-item label="邮箱号" label-width="100px">
+						<el-input v-model="form.name" autocomplete="off" style="width: 343px;" placeholder="输入邮箱"></el-input>
+					</el-form-item>
+					<el-form-item label="验证码" label-width="100px">
+						<div style="display: flex;align-items: center;">
+							<el-input v-model="form.name" autocomplete="off" style="width: 226px;" placeholder="输入验证码"></el-input>
+							<div class="getCode">获取验证码</div>
+						</div>
+					</el-form-item>
+				</el-form>
+			</div>
+			<div class="myDialogBtn">确定</div>
+		</el-dialog>
+		<!-- 修改手机 -->
+		<el-dialog :visible.sync="phoneVisible" center  width="550px" :show-close="showClo" class="myDialogWarp">
+			<div style="padding-top: 49px;">
+				<el-form :model="form" >
+					<el-form-item label="手机号" label-width="100px">
+						<el-input v-model="form.name" autocomplete="off" style="width: 343px;" placeholder="输入手机号"></el-input>
+					</el-form-item>
+					<el-form-item label="验证码" label-width="100px">
+						<div style="display: flex;align-items: center;">
+							<el-input v-model="form.name" autocomplete="off" style="width: 226px;" placeholder="输入验证码"></el-input>
+							<div class="getCode">获取验证码</div>
+						</div>
+					</el-form-item>
+				</el-form>
+			</div>
+			<div class="myDialogBtn">确定</div>
+		</el-dialog>
 	</div>
 </template>
 
@@ -117,6 +152,9 @@
 	export default {
 		data() {
 			return {
+				emailVisible:false,
+				phoneVisible:false,
+				showClo:false,
 				form: {
 					userName: '',
 					sex: '1',
@@ -135,7 +173,7 @@
 					province: '1', //省
 					city: '1', //市
 					area: '1', //区
-					imageUrl:''
+					imageUrl: ''
 				},
 				options: [{
 					value: '选项1',
@@ -186,7 +224,51 @@
 		display: flex;
 		justify-content: space-between;
 	}
-
+	.myDialogWarp .el-dialog{
+		border-radius: 16px;
+	}
+	.myDialogWarp .el-dialog__header{
+		padding: 0px !important;
+	}
+	.myDialogWarp .el-dialog__body{
+		padding: 0px !important;
+		height: 260px;
+	}
+	.myDialogWarp .el-form-item__label {
+		margin-right: 20px;
+	}
+	.myDialogWarp .el-form-item__content{
+		margin-left: 0px !important;
+	}
+	.myDialogWarp .getCode{
+		border-radius: 8px;
+		background: #FDECF3;
+		width: 108px;
+		height: 44px;
+		color: #EA4C89;
+		font-family: PingFang SC;
+		font-weight: regular;
+		font-size: 16px;
+		line-height: 44px;
+		letter-spacing: 0px;
+		text-align: center;
+		margin-left: 9px;
+	}
+	.myDialogBtn{
+		border-radius: 8px;
+		background: #EA4C89;
+		width: 240px;
+		height: 40px;
+		color: #FFFFFF;
+		font-family: PingFang SC;
+		font-weight: regular;
+		font-size: 14px;
+		line-height: normal;
+		letter-spacing: 0px;
+		text-align: center;
+		margin-left: 136px;
+		line-height: 40px;
+	}
 	.submitBtn {
 		border-radius: 8px;
 		background: #EA4C89;

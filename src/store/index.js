@@ -11,7 +11,8 @@ export default new Vuex.Store({
   state: {
     userKey: getItem(USERKEY),
 	isLogin:false,
-	token:getItem(TOKEN)
+	token:getItem(TOKEN),
+	userInfo:getItem('userInfo')
   },
   mutations: {
     setUser(state, userKey) {
@@ -21,6 +22,10 @@ export default new Vuex.Store({
 	setToken(state, token) {
 	  state.token = token
 	  setItem(TOKEN, token)
+	},
+	setUserInfo(state, userInfo) {
+	  state.userInfo = userInfo
+	  setItem('userInfo', userInfo)
 	},
   },
   actions: {

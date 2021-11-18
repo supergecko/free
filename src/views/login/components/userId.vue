@@ -93,9 +93,7 @@
 								console.log(res.data.userId)
 								this.$store.commit('setUser', res.data.userId)
 								this.$store.commit('setToken',res.data.token)
-								this.$message('登录成功')
-								// this.getUserInfo(res.data.userId)
-								this.$router.push('/')
+								this.getUserInfo(res.data.userId)
 							} else {
 								this.$message(res.data.msg)
 							}
@@ -109,8 +107,9 @@
 			//获取用户信息
 			async getUserInfo(uuid) {
 				const res = await userId(uuid)
-				console.log(res)
-				//this.$router.push('/')
+				this.$message('登录成功')
+				this.$store.commit('setUserInfo',res.data.data)
+				this.$router.push('/')
 			},
 			// 切换图形验证码
 			async changeImageCode() {

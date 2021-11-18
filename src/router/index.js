@@ -21,12 +21,17 @@ const routes = [
   },
   {
     path: '/orderHire',
-    name: 'orderInfo',
+    name: 'orderHire',
     component: () => import('@/views/order/hire')
   },
   {
+    path: '/releaseTask',
+    name: 'releaseTask',
+    component: () => import('@/views/releaseTask')
+  },
+  {
     path: '/orderReceiving',
-    name: 'orderInfo',
+    name: 'orderReceiving',
     component: () => import('@/views/order/receiving')
   },
   {
