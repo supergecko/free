@@ -2,52 +2,52 @@
 	<div class="releaseWarp">
 		<div class="leftReseaseWarp">
 			<div class="reseaseTitle">发布一个新任务</div>
-			<el-form ref="form" :model="form" label-position="right" label-width="212px">
-				<el-form-item label="竞标方式">
+			<el-form ref="form" :model="form" label-position="right" label-width="212px"  :rules="rules">
+				<el-form-item label="竞标方式" prop="method">
 					<el-radio-group v-model="form.method">
-						<el-radio label="单人承接"></el-radio>
-						<el-radio label="团队承接"></el-radio>
+						<el-radio label="单人承接" value="单人承接"></el-radio>
+						<el-radio label="团队承接" value="团队承接"></el-radio>
 					</el-radio-group>
 				</el-form-item>
-				<el-form-item label="任务类型">
+				<el-form-item label="任务类型" prop="type">
 					<el-select v-model="form.type" placeholder="请选择任务类型" style="width: 340px;">
 						<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
 						</el-option>
 					</el-select>
 				</el-form-item>
-				<el-form-item label="任务标签">
+				<el-form-item label="任务标签"  prop="tag">
 					<el-input v-model="form.tag" style="width: 340px;" placeholder="输入任务标签（例：电商小程序开发）"></el-input>
 					<span class="tapTips">(注：标签以“ , ”号间隔)</span>
 				</el-form-item>
-				<el-form-item label="任务名称">
+				<el-form-item label="任务名称"  prop="name">
 					<el-input v-model="form.name" style="width: 340px;" placeholder="输入任务名称  (例：APP开发)"></el-input>
 				</el-form-item>
-				<el-form-item label="描述您的任务需求">
+				<el-form-item label="描述您的任务需求"  prop="demand">
 					<el-input type="textarea" v-model="form.demand" style="width: 650px;height: 150px;"
 						placeholder="输入任务详细"></el-input>
 				</el-form-item>
-				<el-form-item label="金额预算">
+				<el-form-item label="金额预算"  prop="money">
 					<el-input placeholder="输入价格" v-model="form.money" style="width: 228px;">
 						<template slot="append">元</template>
 					</el-input>
 				</el-form-item>
-				<el-form-item label="任务周期">
+				<el-form-item label="任务周期"  prop="cycle">
 					<el-input placeholder="输入周期" v-model="form.cycle" style="width: 228px;">
 						<template slot="append">天</template>
 					</el-input>
 					<span class="tapTips">(注：该任务需要多少时间完成)</span>
 				</el-form-item>
-				<el-form-item label="联系方式">
+				<el-form-item label="联系方式"  prop="phone">
 					<el-input v-model="form.phone" style="width: 340px;" placeholder="输入手机号/微信/QQ"></el-input>
 				</el-form-item>
-				<el-form-item label="限制投标数">
+				<el-form-item label="限制投标数" prop="limitNum">
 					<el-input v-model="form.limitNum" style="width: 180px;" placeholder="输入人数"></el-input>
 					<el-radio v-model="form.radio1" label="1" border style="margin-left: 10px;">不限制</el-radio>
-				</el-form-item>	
+				</el-form-item>
 			</el-form>
 			<div style="margin-left: 268px;margin-top: 150px;">
 				<el-radio label="1" v-model="radio2">阅读并同意<span style="color: #EA4C89;">《Free星球平台雇佣协议》</span></el-radio>
-				<div class="fabu">发布</div>
+				<div class="fabu" @click="submitForm('form')">发布</div>
 			</div>
 		</div>
 		<div class="rightReseaseWarp">
@@ -61,6 +61,9 @@
 </template>
 
 <script>
+	import {
+		taskAdd
+	} from '@/api/task'
 	export default {
 		data() {
 			return {
@@ -74,9 +77,20 @@
 					cycle: '1', //任务周期
 					phone: '', //联系方式
 					limitNum: '', //限制投标数
-					radio1:''//不限制人数按钮
+					radio1: '' //不限制人数按钮
 				},
-				radio2:'',//同意
+				radio2: '', //同意
+				rules: {
+					method: [{ required: true, message: '请选择竞标方式', trigger: 'change' }],
+					type: [{ required: true, message: '请选择任务类型', trigger: 'change' }],
+					tag: [{ required: true, message: '请输入任务标签', trigger: 'blur' }],
+					name: [{ required: true, message: '请输入任务名称', trigger: 'blur' }],
+					demand: [{ required: true, message: '请输入任务详细', trigger: 'blur' }],
+					money: [{ required: true, message: '请输入价格', trigger: 'blur' }],
+					cycle: [{ required: true, message: '请输入任务周期', trigger: 'blur' }],
+					phone: [{ required: true, message: '请输入联系方式', trigger: 'blur' }],
+					limitNum: [{ required: true, message: '请输入人数', trigger: 'blur' }],
+				},
 				options: [{
 					value: '选项1',
 					label: '黄金糕'
@@ -103,6 +117,37 @@
 				this.$router.push({
 					path: '/userForm'
 				})
+			},
+			submitForm(formName) {
+				this.$refs[formName].validate((valid) => {
+					if (valid) {
+						this.submitTask()
+					} else {
+						console.log('error submit!!');
+						return false;
+					}
+				});
+			},
+			submitTask() {
+				let data = {
+					biddingMethod: this.form.method, //竞标方式（0：通用；1：个人；2：团队）
+					missionType: this.form.type, //任务类型
+					//tag:this.form.tag,// 任务标签
+					missionName:this.form.name ,//任务名称
+					missionProfile:this.form.demand ,//任务简介
+					missionBudgets:this.form.money,//金额
+					missionCycle:this.form.cycle ,//周期
+					phone:this.form.phone,//联系方式
+					tendersNum:this.form.limitNum //投标数量
+				}
+				taskAdd(data).then(res => {
+					if (res.data.code === 200) {
+						
+						// if (res.data.rows.length < this.pageSize) {
+						// 	this.$message('最后一页啦')
+						// }
+					}
+				})
 			}
 		}
 	}
@@ -112,7 +157,9 @@
 	.leftReseaseWarp .el-form-item__label {
 		margin-right: 52px;
 	}
-
+	.el-form-item__error{
+		margin-left: 53px;
+	}
 	.leftReseaseWarp .el-radio__input.is-checked .el-radio__inner {
 		border-color: #EA4C89;
 		background: #EA4C89;
@@ -123,11 +170,14 @@
 		background: #F3F3F4;
 		border-radius: 4px;
 	}
-	.leftReseaseWarp .el-input-group__append, .el-input-group__prepend{
+
+	.leftReseaseWarp .el-input-group__append,
+	.el-input-group__prepend {
 		color: #353535;
 		border: 0px;
 		background-color: #F3F3F4;
 	}
+
 	.releaseWarp {
 		width: 1280px;
 		margin: 0 auto;
@@ -135,7 +185,8 @@
 		display: flex;
 		justify-content: space-between;
 	}
-	.fabu{
+
+	.fabu {
 		border-radius: 8px;
 		background: #EA4C89;
 		width: 240px;
@@ -149,6 +200,7 @@
 		text-align: center;
 		margin-top: 36px;
 	}
+
 	.tapTips {
 		color: #353535;
 		font-family: PingFang SC;

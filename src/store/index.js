@@ -27,6 +27,15 @@ export default new Vuex.Store({
 	  state.userInfo = userInfo
 	  setItem('userInfo', userInfo)
 	},
+	LogOut(state){
+	  state.isLogin = false
+	  state.userKey = null
+	  state.token = null
+	  state.userInfo = null
+	  setItem(USERKEY, null)
+	  setItem(TOKEN, null)
+	  setItem('userInfo', null)
+	}
   },
   actions: {
   },

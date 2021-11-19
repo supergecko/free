@@ -12,3 +12,12 @@ export const list = (params) => {
 		params
     })
 }
+
+//创建任务
+export const taskAdd = (data) => {
+    return request({
+        method: 'post',
+        url: '/api/mission/add',
+		data
+    })
+}
