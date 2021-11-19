@@ -5,8 +5,8 @@
 			<el-form ref="form" :model="form" label-position="right" label-width="212px"  :rules="rules">
 				<el-form-item label="竞标方式" prop="method">
 					<el-radio-group v-model="form.method">
-						<el-radio label="单人承接" value="单人承接"></el-radio>
-						<el-radio label="团队承接" value="团队承接"></el-radio>
+						<el-radio label="1" >单人承接</el-radio>
+						<el-radio label="2" >团队承接</el-radio>
 					</el-radio-group>
 				</el-form-item>
 				<el-form-item label="任务类型" prop="type">
@@ -38,9 +38,14 @@
 					<span class="tapTips">(注：该任务需要多少时间完成)</span>
 				</el-form-item>
 				<el-form-item label="联系方式"  prop="phone">
-					<el-input v-model="form.phone" style="width: 340px;" placeholder="输入手机号/微信/QQ"></el-input>
+					<el-select v-model="form.contact" style="width: 105px;">
+						<el-option label="微信" value="1"></el-option>
+						<el-option label="QQ" value="2"></el-option>
+						<el-option label="手机" value="3"></el-option>
+					</el-select>
+					<el-input v-model="form.phone" style="width: 288px;" placeholder="输入联系方式"></el-input>
 				</el-form-item>
-				<el-form-item label="限制投标数" prop="limitNum">
+				<el-form-item label="限制投标数" prop="radio1" :rules="{validator: instrumentCalibration,trigger: 'blur',required: true}">
 					<el-input v-model="form.limitNum" style="width: 180px;" placeholder="输入人数"></el-input>
 					<el-radio v-model="form.radio1" label="1" border style="margin-left: 10px;">不限制</el-radio>
 				</el-form-item>
@@ -77,7 +82,8 @@
 					cycle: '1', //任务周期
 					phone: '', //联系方式
 					limitNum: '', //限制投标数
-					radio1: '' //不限制人数按钮
+					radio1: '' ,//不限制人数按钮
+					contact:'1',//联系方式flag
 				},
 				radio2: '', //同意
 				rules: {
@@ -118,7 +124,23 @@
 					path: '/userForm'
 				})
 			},
+			//投标数校验
+			instrumentCalibration(rule, value, callback) {
+			  if (this.form.limitNum === '' && this.form.radio1 === '') {
+			    return callback(
+			      new Error('请选择投标数')
+			    )
+			  }
+			  callback()
+			},
 			submitForm(formName) {
+				if(this.radio2 != '1'){
+					this.$message({
+					  type: 'warning',
+					  message: '请勾选并同意协议'
+					})
+					return
+				}
 				this.$refs[formName].validate((valid) => {
 					if (valid) {
 						this.submitTask()
@@ -137,8 +159,10 @@
 					missionProfile:this.form.demand ,//任务简介
 					missionBudgets:this.form.money,//金额
 					missionCycle:this.form.cycle ,//周期
-					phone:this.form.phone,//联系方式
-					tendersNum:this.form.limitNum //投标数量
+					tendersNum:this.form.limitNum ,//投标数量
+					wechat:this.form.contact == '1'? this.form.phone : null, //微信
+					qqNumber:this.form.contact == '2'? this.form.phone : null, //qq
+					phone:this.form.contact == '3'? this.form.phone : null //手机
 				}
 				taskAdd(data).then(res => {
 					if (res.data.code === 200) {
