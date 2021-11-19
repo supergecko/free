@@ -21,3 +21,11 @@ export const taskAdd = (data) => {
 		data
     })
 }
+
+//任务详情查询
+export const taskInfo = (missionId) => {
+    return request({
+        method: 'get',
+        url: `/api/mission/${missionId}`,
+    })
+}

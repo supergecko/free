@@ -54,3 +54,11 @@ export const setPassword = data => {
 		data
 	})
 }
+
+//用户登出
+export const loginOut = data => {
+	return request({
+		method: 'get',
+		url: '/api/user/logout',
+	})
+}
