@@ -2,42 +2,42 @@
 	<div class="releaseWarp">
 		<div class="leftReseaseWarp">
 			<div class="reseaseTitle">发布一个新任务</div>
-			<el-form ref="form" :model="form" label-position="right" label-width="212px"  :rules="rules">
+			<el-form ref="form" :model="form" label-position="right" label-width="212px" :rules="rules">
 				<el-form-item label="竞标方式" prop="method">
 					<el-radio-group v-model="form.method">
-						<el-radio label="1" >单人承接</el-radio>
-						<el-radio label="2" >团队承接</el-radio>
+						<el-radio label="1">单人承接</el-radio>
+						<el-radio label="2">团队承接</el-radio>
 					</el-radio-group>
 				</el-form-item>
 				<el-form-item label="任务类型" prop="type">
 					<el-select v-model="form.type" placeholder="请选择任务类型" style="width: 340px;">
-						<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+						<el-option v-for="item in typeText" :key="item.typeId" :label="item.typeName" :value="item.typeName">
 						</el-option>
 					</el-select>
 				</el-form-item>
-				<el-form-item label="任务标签"  prop="tag">
+				<el-form-item label="任务标签" prop="tag">
 					<el-input v-model="form.tag" style="width: 340px;" placeholder="输入任务标签（例：电商小程序开发）"></el-input>
 					<span class="tapTips">(注：标签以“ , ”号间隔)</span>
 				</el-form-item>
-				<el-form-item label="任务名称"  prop="name">
+				<el-form-item label="任务名称" prop="name">
 					<el-input v-model="form.name" style="width: 340px;" placeholder="输入任务名称  (例：APP开发)"></el-input>
 				</el-form-item>
-				<el-form-item label="描述您的任务需求"  prop="demand">
+				<el-form-item label="描述您的任务需求" prop="demand">
 					<el-input type="textarea" v-model="form.demand" style="width: 650px;height: 150px;"
 						placeholder="输入任务详细"></el-input>
 				</el-form-item>
-				<el-form-item label="金额预算"  prop="money">
+				<el-form-item label="金额预算" prop="money">
 					<el-input placeholder="输入价格" v-model="form.money" style="width: 228px;">
 						<template slot="append">元</template>
 					</el-input>
 				</el-form-item>
-				<el-form-item label="任务周期"  prop="cycle">
+				<el-form-item label="任务周期" prop="cycle">
 					<el-input placeholder="输入周期" v-model="form.cycle" style="width: 228px;">
 						<template slot="append">天</template>
 					</el-input>
 					<span class="tapTips">(注：该任务需要多少时间完成)</span>
 				</el-form-item>
-				<el-form-item label="联系方式"  prop="phone">
+				<el-form-item label="联系方式" prop="phone">
 					<el-select v-model="form.contact" style="width: 105px;">
 						<el-option label="微信" value="1"></el-option>
 						<el-option label="QQ" value="2"></el-option>
@@ -45,7 +45,8 @@
 					</el-select>
 					<el-input v-model="form.phone" style="width: 288px;" placeholder="输入联系方式"></el-input>
 				</el-form-item>
-				<el-form-item label="限制投标数" prop="radio1" :rules="{validator: instrumentCalibration,trigger: 'blur',required: true}">
+				<el-form-item label="限制投标数" prop="radio1"
+					:rules="{validator: instrumentCalibration,trigger: 'blur',required: true}">
 					<el-input v-model="form.limitNum" style="width: 180px;" placeholder="输入人数"></el-input>
 					<el-radio v-model="form.radio1" label="1" border style="margin-left: 10px;">不限制</el-radio>
 				</el-form-item>
@@ -67,7 +68,8 @@
 
 <script>
 	import {
-		taskAdd
+		taskAdd,
+		getMissonType
 	} from '@/api/task'
 	export default {
 		data() {
@@ -82,41 +84,62 @@
 					cycle: '1', //任务周期
 					phone: '', //联系方式
 					limitNum: '', //限制投标数
-					radio1: '' ,//不限制人数按钮
-					contact:'1',//联系方式flag
+					radio1: '', //不限制人数按钮
+					contact: '1', //联系方式flag
 				},
 				radio2: '', //同意
 				rules: {
-					method: [{ required: true, message: '请选择竞标方式', trigger: 'change' }],
-					type: [{ required: true, message: '请选择任务类型', trigger: 'change' }],
-					tag: [{ required: true, message: '请输入任务标签', trigger: 'blur' }],
-					name: [{ required: true, message: '请输入任务名称', trigger: 'blur' }],
-					demand: [{ required: true, message: '请输入任务详细', trigger: 'blur' }],
-					money: [{ required: true, message: '请输入价格', trigger: 'blur' }],
-					cycle: [{ required: true, message: '请输入任务周期', trigger: 'blur' }],
-					phone: [{ required: true, message: '请输入联系方式', trigger: 'blur' }],
-					limitNum: [{ required: true, message: '请输入人数', trigger: 'blur' }],
+					method: [{
+						required: true,
+						message: '请选择竞标方式',
+						trigger: 'change'
+					}],
+					type: [{
+						required: true,
+						message: '请选择任务类型',
+						trigger: 'change'
+					}],
+					tag: [{
+						required: true,
+						message: '请输入任务标签',
+						trigger: 'blur'
+					}],
+					name: [{
+						required: true,
+						message: '请输入任务名称',
+						trigger: 'blur'
+					}],
+					demand: [{
+						required: true,
+						message: '请输入任务详细',
+						trigger: 'blur'
+					}],
+					money: [{
+						required: true,
+						message: '请输入价格',
+						trigger: 'blur'
+					}],
+					cycle: [{
+						required: true,
+						message: '请输入任务周期',
+						trigger: 'blur'
+					}],
+					phone: [{
+						required: true,
+						message: '请输入联系方式',
+						trigger: 'blur'
+					}],
+					limitNum: [{
+						required: true,
+						message: '请输入人数',
+						trigger: 'blur'
+					}],
 				},
-				options: [{
-					value: '选项1',
-					label: '黄金糕'
-				}, {
-					value: '选项2',
-					label: '双皮奶'
-				}, {
-					value: '选项3',
-					label: '蚵仔煎'
-				}, {
-					value: '选项4',
-					label: '龙须面'
-				}, {
-					value: '选项5',
-					label: '北京烤鸭'
-				}],
+				typeText: []//任务类型
 			}
 		},
-		computed: {
-
+		created() {
+			this.getMissonType()
 		},
 		methods: {
 			editUserInfo() {
@@ -126,18 +149,24 @@
 			},
 			//投标数校验
 			instrumentCalibration(rule, value, callback) {
-			  if (this.form.limitNum === '' && this.form.radio1 === '') {
-			    return callback(
-			      new Error('请选择投标数')
-			    )
-			  }
-			  callback()
+				if (this.form.limitNum === '' && this.form.radio1 === '') {
+					return callback(
+						new Error('请选择投标数')
+					)
+				}
+				callback()
+			},
+			//获取任务类型分类
+			getMissonType(){
+				getMissonType().then(res=>{
+					this.typeText = res.data.data
+				})
 			},
 			submitForm(formName) {
-				if(this.radio2 != '1'){
+				if (this.radio2 != '1') {
 					this.$message({
-					  type: 'warning',
-					  message: '请勾选并同意协议'
+						type: 'warning',
+						message: '请勾选并同意协议'
 					})
 					return
 				}
@@ -155,18 +184,18 @@
 					biddingMethod: this.form.method, //竞标方式（0：通用；1：个人；2：团队）
 					missionType: this.form.type, //任务类型
 					//tag:this.form.tag,// 任务标签
-					missionName:this.form.name ,//任务名称
-					missionProfile:this.form.demand ,//任务简介
-					missionBudgets:this.form.money,//金额
-					missionCycle:this.form.cycle ,//周期
-					tendersNum:this.form.limitNum ,//投标数量
-					wechat:this.form.contact == '1'? this.form.phone : null, //微信
-					qqNumber:this.form.contact == '2'? this.form.phone : null, //qq
-					phone:this.form.contact == '3'? this.form.phone : null //手机
+					missionName: this.form.name, //任务名称
+					missionProfile: this.form.demand, //任务简介
+					missionBudgets: this.form.money, //金额
+					missionCycle: this.form.cycle, //周期
+					tendersNum: this.form.limitNum, //投标数量
+					wechat: this.form.contact == '1' ? this.form.phone : null, //微信
+					qqNumber: this.form.contact == '2' ? this.form.phone : null, //qq
+					phone: this.form.contact == '3' ? this.form.phone : null //手机
 				}
 				taskAdd(data).then(res => {
 					if (res.data.code === 200) {
-						
+
 						// if (res.data.rows.length < this.pageSize) {
 						// 	this.$message('最后一页啦')
 						// }
@@ -181,9 +210,11 @@
 	.leftReseaseWarp .el-form-item__label {
 		margin-right: 52px;
 	}
-	.el-form-item__error{
+
+	.el-form-item__error {
 		margin-left: 53px;
 	}
+
 	.leftReseaseWarp .el-radio__input.is-checked .el-radio__inner {
 		border-color: #EA4C89;
 		background: #EA4C89;

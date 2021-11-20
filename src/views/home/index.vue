@@ -50,7 +50,7 @@
 						</div>
 					</div>
 					<div class="item-middle">
-						<div @click="taskDetail" class="item-content">
+						<div class="item-content">
 							{{item.hireMission.missionProfile}}
 						</div>
 					</div>
@@ -97,8 +97,7 @@
 					<span class="title">类型:</span>
 					<div class="checked">
 						<el-checkbox-group v-model="checkList" @change="test">
-							<el-checkbox :label="item" v-for="(item, index) in typeText" :key="index" >
-							</el-checkbox>
+							<el-checkbox :label="item.typeId" v-for="(item, index) in typeText" :key="index" >{{item.typeName}}</el-checkbox>
 						</el-checkbox-group>
 					</div>
 				</div>
@@ -125,9 +124,7 @@
 	import {
 		mapState
 	} from 'vuex'
-	import {
-		list
-	} from '@/api/task'
+	import {list,getMissonType} from '@/api/task'
 
 	export default {
 		name: 'home',
@@ -148,7 +145,7 @@
 			}
 		},
 		computed: {
-			...mapState(['userKey']) // 读取用户信息
+			...mapState(['userInfo']) // 读取用户信息
 		},
 		methods: {
 			test(e){
@@ -159,9 +156,17 @@
 				this.currentPage = 1
 				this.getList()
 			},
+			// 查看任务详情
 			goToOrderInfo() {
+				// 1技术   0 雇佣
+				let pathSrc = ''
+				if (this.userInfo.user.userType == '0'){
+					pathSrc = '/orderHire'
+				} else {
+					pathSrc = '/orderReceiving'
+				}
 				this.$router.push({
-					path: '/orderHire'
+					path: pathSrc
 				})
 			},
 			// 页容量改变时
@@ -183,14 +188,11 @@
 				this.getList()
 				console.log('下一页')
 			},
-			// 查看任务详情
-			taskDetail() {
-				if (this.userKey) {
-					// 查看详情页
-					console.log('查看详情页')
-				} else {
-					console.log('去往登录页')
-				}
+			//获取任务类型分类
+			getMissonType(){
+				getMissonType().then(res=>{
+					this.typeText = res.data.data
+				})
 			},
 			// 任务列表
 			getList() {
@@ -212,6 +214,7 @@
 			}
 		},
 		created() {
+			this.getMissonType()
 			this.getList()
 		}
 	}

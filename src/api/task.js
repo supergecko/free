@@ -29,3 +29,11 @@ export const taskInfo = (missionId) => {
         url: `/api/mission/${missionId}`,
     })
 }
+
+//获取任务类型分类
+export const getMissonType = () => {
+    return request({
+        method: 'get',
+        url: `/api/mission/missionType`,
+    })
+}

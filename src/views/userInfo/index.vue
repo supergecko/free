@@ -7,7 +7,7 @@
 				<div class="tuiBtn">我要推广</div>
 			</div>
 			<div class="leftSecondWarp">
-				<div class="tableItem active" v-for="(item,i) in tableBtnList" :key="i">{{item.title}}</div>
+				<div class="tableItem" v-for="(item,i) in tableBtnList" :key="i" :class="tableCheckFlag==i?'active':''" @click="checkTable(i)">{{item.title}}</div>
 			</div>
 		</div>
 		<!-- 右侧 -->
@@ -139,7 +139,8 @@
 					{title:'财务管理',id:6},
 					{title:'任务管理',id:7},
 					{title:'团队管理',id:8}
-				]
+				],
+				tableCheckFlag:0
 			}
 		},
 		computed: {
@@ -150,6 +151,10 @@
 				this.$router.push({
 					path: '/userForm'
 				})
+			},
+			//切换table
+			checkTable(index){
+				this.tableCheckFlag = index
 			}
 		}
 	}
