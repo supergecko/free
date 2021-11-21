@@ -36,14 +36,13 @@
 							<div class="pinkText">ID: {{userInfo.user.userId}}</div>
 							<div class="grayText" style="margin-top: 6px;">粉丝: 8234892人</div>
 							<div class="grayText">电话: {{userInfo.user.userPhone}}</div>
-							<div style="display: flex;align-items: center;margin-bottom: 10px;margin-top: 5px;">
+							<div style="display: flex;align-items: center;margin-bottom: 10px;margin-top: 5px;" v-if="userInfo.user.userType=='1'">
 								<div class="jineng">技能</div>
-								<div class="jinengLabel">PHP</div>
-								<div class="jinengLabel">JAVA</div>
+								<div class="jinengLabel" v-for="(item,i) in specializedSkills" :key="i">{{item}}</div>
 							</div>
-							<div style="display: flex;align-items: center;">
+							<div style="display: flex;align-items: center;" v-if="userInfo.user.userType=='1'">
 								<div class="jineng" style="background: #7AC7FF;">作品</div>
-								<div class="jinengLabel labelBlue" v-for="(item,i) in 3">滴滴打车APP</div>
+								<div class="jinengLabel labelBlue" v-for="(item,i) in specializedProjects" :key="i">{{item}}</div>
 							</div>
 							<div class="bottomLine"></div>
 						</div>
@@ -144,7 +143,13 @@
 			}
 		},
 		computed: {
-			...mapState(['userInfo']) // 读取用户信息
+			...mapState(['userInfo']), // 读取用户信息
+			specializedSkills:function(){
+				return this.userInfo.user.specializedSkills.split(",")
+			},
+			specializedProjects:function(){
+				return this.userInfo.user.specializedProjects.split(",")
+			}
 		},
 		methods:{
 			editUserInfo(){

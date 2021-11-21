@@ -40,7 +40,7 @@
 					</div>
 				</div>
 
-				<div class="personListWarp" v-for="(item) in 7">
+				<div class="personListWarp" v-for="(item) in 7" @click="gotoWorkInfo()">
 					<div style="display: flex;align-items: center;justify-content: space-between;">
 						<div style="display: flex;align-items: center;">
 							<img src="../../assets/1.jpg"
@@ -153,6 +153,11 @@
 		methods: {
 			changeTitle(i) {
 				this.isFlag = i
+			},
+			gotoWorkInfo(){
+				this.$router.push({
+					path: '/workerInfo'
+				})
 			}
 		}
 	}

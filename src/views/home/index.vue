@@ -96,8 +96,8 @@
 				<div class="type flex">
 					<span class="title">类型:</span>
 					<div class="checked">
-						<el-checkbox-group v-model="checkList" @change="test">
-							<el-checkbox :label="item.typeId" v-for="(item, index) in typeText" :key="index" >{{item.typeName}}</el-checkbox>
+						<el-checkbox-group v-model="checkList" @change="changeType">
+							<el-checkbox :label="item.typeName" v-for="(item, index) in typeText" :key="index" >{{item.typeName}}</el-checkbox>
 						</el-checkbox-group>
 					</div>
 				</div>
@@ -148,8 +148,18 @@
 			...mapState(['userInfo']) // 读取用户信息
 		},
 		methods: {
-			test(e){
+			changeType(e){
 				console.log(e)
+				let arr = e
+				let text = ''
+				if(arr.length==1){
+					this.missionType = ''
+				} else {
+					for(let i = 1;i<arr.length;i++){
+						text += arr[i] + ','
+						this.missionType = text
+					}
+				}
 			},
 			//筛选
 			screenList(){

@@ -62,3 +62,20 @@ export const loginOut = data => {
 		url: '/api/user/logout',
 	})
 }
+
+//查询所有国家城市名称
+export const cityInformation = data => {
+	return request({
+		method: 'get',
+		url: '/api/district/list',
+	})
+}
+
+//更新用户信息
+export const uploadUserInfo = (data) => {
+	return request({
+		method: 'put',
+		url: '/api/user/update',
+		data
+	})
+}
