@@ -163,6 +163,33 @@
 </template>
 
 <script>
+	import {mapState} from 'vuex'
+	import {taskInfo} from '@/api/task'
+	export default {
+		name: 'orderHire',
+		data() {
+			return {
+				
+			}
+		},
+		computed: {
+			...mapState(['userInfo']) // 读取用户信息
+		},
+		methods: {
+			// 任务详情
+			getMissionInfo() {
+				let missionId = this.$route.query.missionId
+				taskInfo(missionId).then(res => {
+					if (res.data.code === 200) {
+						console.log(res)
+					}
+				})
+			}
+		},
+		created() {
+			this.getMissionInfo()
+		}
+	}
 </script>
 
 <style>

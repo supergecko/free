@@ -22,7 +22,7 @@
 				<!-- 任务列表每项 -->
 				<div class="list-item" v-for="(item, index) in taskList" :key="index">
 					<div class="item-top">
-						<div class="left-wrap" @click="goToOrderInfo()">
+						<div class="left-wrap" @click="goToOrderInfo(item.hireMission.missionId)">
 							<div class="avatar">
 								<img :src="item.userAvatar" style="width: 48px;height: 48px;border-radius: 50%;" />
 							</div>
@@ -167,13 +167,13 @@
 				this.getList()
 			},
 			// 查看任务详情
-			goToOrderInfo() {
+			goToOrderInfo(missionId) {
 				// 1技术   0 雇佣
 				let pathSrc = ''
 				if (this.userInfo.user.userType == '0'){
-					pathSrc = '/orderHire'
+					pathSrc = `/orderHire?missionId=${missionId}`
 				} else {
-					pathSrc = '/orderReceiving'
+					pathSrc = `/orderReceiving?missionId=${missionId}`
 				}
 				this.$router.push({
 					path: pathSrc
