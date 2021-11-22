@@ -31,11 +31,13 @@
 					</div>
 					<div style="display: flex;align-items: center;margin-top: 60px;">
 						<span class="commonText">预计时间：</span>
-						<span class="commonText" style="font-weight: medium;font-size: 20px;">{{hireMission.missionCycle}}</span>
+						<span class="commonText"
+							style="font-weight: medium;font-size: 20px;">{{hireMission.missionCycle}}</span>
 					</div>
 					<div style="display: flex;align-items: center;margin-top: 10px;">
 						<span class="commonText">预计价格：</span>
-						<span class="commonText" style="font-weight: medium;font-size: 20px;">{{hireMission.missionBudgets}}</span>
+						<span class="commonText"
+							style="font-weight: medium;font-size: 20px;">{{hireMission.missionBudgets}}</span>
 					</div>
 					<div style="display: flex;align-items: center;margin-top: 10px;">
 						<span class="commonText">任务标签：</span>
@@ -54,26 +56,26 @@
 					<div class="line"></div>
 					<div style="display: flex; position: absolute; left: 0px; bottom: 35px;align-items: center;">
 						<div class="receivingTag">
-							<img src="../../assets/loginOut.png" style="width: 17.5px;height: 17.5px;"/>
+							<img src="../../assets/loginOut.png" style="width: 17.5px;height: 17.5px;" />
 							<div style="margin-left: 5px;">无法实现 0</div>
 						</div>
 						<div class="receivingTag">
-							<img src="../../assets/loginOut.png" style="width: 17.5px;height: 17.5px;"/>
+							<img src="../../assets/loginOut.png" style="width: 17.5px;height: 17.5px;" />
 							<div style="margin-left: 5px;">预算太少 0</div>
 						</div>
 						<div class="receivingTag">
-							<img src="../../assets/loginOut.png" style="width: 17.5px;height: 17.5px;"/>
+							<img src="../../assets/loginOut.png" style="width: 17.5px;height: 17.5px;" />
 							<div style="margin-left: 5px;">任务不真实 0</div>
 						</div>
 						<div class="receivingTag">
-							<img src="../../assets/loginOut.png" style="width: 17.5px;height: 17.5px;"/>
+							<img src="../../assets/loginOut.png" style="width: 17.5px;height: 17.5px;" />
 							<div style="margin-left: 5px;">需求不详细 0</div>
 						</div>
 						<div class="jiedan" style="margin-right: 20px;margin-left: 139px;">
 							<span>接单要求：</span>
 							<span style="color: #595959;">个人</span>
 						</div>
-						<div class="taskBTnRed">
+						<div class="taskBTnRed" @click="dialogFormVisible = true">
 							投标竞价
 						</div>
 						<div class="taskBTn" style="color: #EA4C89;" v-if="false">
@@ -84,7 +86,19 @@
 				</div>
 			</div>
 			<div class="mainSecondWarp backgroundWhite">
-				
+				<div style="display: flex;align-items: center;justify-content: space-between;padding-top: 34px;">
+					<div style="font-weight: medium;font-size: 20px;">我的投标</div>
+					<div>
+						<div class="toubiaotitle">参与投标号：82910228</div>
+						<div class="toubiaotitle" style="margin-left: 20px;">提交时间：2021-03-24 17:02</div>
+					</div>
+				</div>
+				<div style="margin-top: 36px;font-size: 18px;color: #6E6D7A;line-height: normal;">
+					200人团队，专注于网页开发，行业20年经验，200人团队，专注于网页开发，行业20年经验，200人团队，专注于网页开发，行业20年经验，200人团队，专注于网页开发，行业20年经验</div>
+				<div style="margin-top: 50px;font-size: 14px;color: #6E6D7A;display: flex;justify-content: center;">
+					<div style="margin-right: 51px;">工期: <span style="font-size: 20px;color: #EA4C89;">30天</span></div>
+					<div>任务标价：<span style="font-size: 20px;color: #EA4C89;">20000元</span></div>
+				</div>
 			</div>
 		</div>
 		<div class="orderRightWarp">
@@ -92,14 +106,16 @@
 				<img src="../../assets/1.jpg" class="rightFirstImg" />
 				<div class="rightFirstName">张飞</div>
 				<div>
-					<img src="../../assets/orderInfo/phone.png" style="width: 30px;height: 30px;margin-right: 20px;"/>
-					<img src="../../assets/orderInfo/notPhone.png" style="width: 30px;height: 30px;margin-right: 20px;" v-if="false"/>
-					
-					<img src="../../assets/orderInfo/email.png" style="width: 30px;height: 30px;margin-right: 20px;"/>
-					<img src="../../assets/orderInfo/notEmail.png" style="width: 30px;height: 30px;margin-right: 20px;"  v-if="false"/>
-					
-					<img src="../../assets/orderInfo/shen.png" style="width: 30px;height: 30px;"/>
-					<img src="../../assets/orderInfo/notShen.png" style="width: 30px;height: 30px;"  v-if="false"/>
+					<img src="../../assets/orderInfo/phone.png" style="width: 30px;height: 30px;margin-right: 20px;" />
+					<img src="../../assets/orderInfo/notPhone.png" style="width: 30px;height: 30px;margin-right: 20px;"
+						v-if="false" />
+
+					<img src="../../assets/orderInfo/email.png" style="width: 30px;height: 30px;margin-right: 20px;" />
+					<img src="../../assets/orderInfo/notEmail.png" style="width: 30px;height: 30px;margin-right: 20px;"
+						v-if="false" />
+
+					<img src="../../assets/orderInfo/shen.png" style="width: 30px;height: 30px;" />
+					<img src="../../assets/orderInfo/notShen.png" style="width: 30px;height: 30px;" v-if="false" />
 				</div>
 				<div class="liulan">查看联系方式</div>
 			</div>
@@ -109,26 +125,82 @@
 					<div class="tuijian">相似任务</div>
 				</div>
 				<div style="height: 310px;overflow: hidden;">
-					<div style="display: flex;padding-left: 28px;margin-top: 20px;align-items: center;" v-for="(item) in 5">
+					<div style="display: flex;padding-left: 28px;margin-top: 20px;align-items: center;"
+						v-for="(item) in 5">
 						<div class="taskContent">需要做一套嵌入式...需要做一套嵌入式...</div>
 						<div class="taskPrice">¥30000</div>
 					</div>
 				</div>
-				
+
 			</div>
 		</div>
+
+		<el-dialog :visible.sync="dialogFormVisible" :show-close="false" class="myDialogWarp" width="802px">
+			<div>
+				<div class="dialogTitle">投标竞价</div>
+				<el-form :model="form">
+					<el-form-item label="承接方式" prop="method" label-width="140px">
+						<el-radio-group v-model="form.method">
+							<el-radio label="1">单人</el-radio>
+							<el-radio label="2">团队</el-radio>
+						</el-radio-group>
+					</el-form-item>
+					<el-form-item label="我的报价" prop="money" label-width="140px">
+						<el-input placeholder="输入价格" v-model="form.money" style="width: 228px;">
+							<template slot="append">元</template>
+						</el-input>
+					</el-form-item>
+					<el-form-item label="任务周期" prop="cycle" label-width="140px">
+						<el-input placeholder="输入周期" v-model="form.cycle" style="width: 228px;">
+							<template slot="append">天</template>
+						</el-input>
+						<span class="tapTips">(注：该任务需要多少时间完成)</span>
+					</el-form-item>
+					<el-form-item label="补充说明" prop="demand" label-width="140px">
+						<el-input type="textarea" v-model="form.demand" style="width: 583px;height: 150px;"
+							placeholder="您想对雇主说什么"></el-input>
+					</el-form-item>
+					<el-form-item label="联系方式" prop="phone" label-width="140px">
+						<el-input v-model="form.phone" style="width: 343px;" placeholder="填写联系方式方便雇主联系"></el-input>
+					</el-form-item>
+					<el-form-item  label-width="140px">
+						<div style="color: #6E6D7A;;">注：您的投标信息仅雇主可见</div>
+					</el-form-item>
+					<el-form-item  label-width="140px">
+						<div style="display: flex;">
+							<div class="jingbiaoBtb">提交竞标</div>
+							<div class="cancel" @click="dialogFormVisible = false">取消</div>
+						</div>
+					</el-form-item>
+				</el-form>
+			</div>
+			
+		</el-dialog>
 	</div>
 </template>
 
 <script>
-	import {mapState} from 'vuex'
-	import {taskInfo} from '@/api/task'
+	import {
+		mapState
+	} from 'vuex'
+	import {
+		taskInfo
+	} from '@/api/task'
 	export default {
 		name: 'orderReceiving',
 		data() {
 			return {
-				hireMission:{} ,//任务详情
-				missionType:[]
+				hireMission: {}, //任务详情
+				missionType: [],
+				form: {
+					method: '',//承接方式
+					money: '',//报价
+					cycle:'',//周期
+					demand:'',//补充说明
+					phone:''//联系方式
+				},
+				formLabelWidth: '120px',
+				dialogFormVisible: false,
 			}
 		},
 		computed: {
@@ -159,7 +231,75 @@
 		display: flex;
 		justify-content: space-between;
 	}
-	.receivingTag{
+	.myDialogWarp .el-input-group__append,
+	.el-input-group__prepend {
+		color: #353535;
+		border: 0px;
+		background-color: #F3F3F4;
+	}
+	.myDialogWarp .jingbiaoBtb{
+		border-radius: 8px;
+		background: #EA4C89;
+		width: 240px;
+		height: 40px;
+		color: #FFFFFF;
+		font-family: PingFang SC;
+		font-weight: regular;
+		font-size: 14px;
+		line-height: 40px;
+		letter-spacing: 0px;
+		text-align: center;
+		margin-right: 32px;
+	}
+	.myDialogWarp .cancel{
+		width: 180px;
+		height: 40px;
+		border-radius: 8px;
+		background: #F3F3F4;
+		color: #353535;
+		font-family: PingFang SC;
+		font-weight: regular;
+		font-size: 14px;
+		line-height: 40px;
+		letter-spacing: 0px;
+		text-align: center;
+	}
+	.myDialogWarp .el-textarea__inner {
+		height: 100%;
+		background: #F3F3F4;
+		border-radius: 4px;
+	}
+	.myDialogWarp .el-dialog {
+		border-radius: 16px;
+		font-size: 16px !important;
+	}
+	.myDialogWarp .dialogTitle{
+		color: #262626;
+		font-family: PingFang SC;
+		font-weight: bold;
+		font-size: 24px;
+		letter-spacing: 0px;
+		padding-top: 47px;
+		margin-left: 146px;
+		margin-bottom: 27px;
+	}
+	.myDialogWarp .el-dialog__header {
+		padding: 0px !important;
+	}
+	.myDialogWarp .el-dialog__body {
+		padding: 0px !important;
+		height: 680px;
+	}
+	.toubiaotitle {
+		border-radius: 2px;
+		color: #000000A5;
+		border: 1px dashed #00000026;
+		font-size: 12px;
+		padding: 2px 14px;
+		display: inline-block;
+	}
+
+	.receivingTag {
 		color: #6E6D7A;
 		font-family: PingFang SC;
 		font-weight: medium;
@@ -170,7 +310,8 @@
 		align-items: center;
 		margin-left: 40px;
 	}
-	.taskBTnRed{
+
+	.taskBTnRed {
 		width: 100px;
 		height: 36px;
 		border-radius: 8px;
@@ -183,14 +324,16 @@
 		letter-spacing: 0px;
 		text-align: center;
 	}
-	.redDian{
+
+	.redDian {
 		background: #EA4C89;
 		width: 8px;
 		height: 8px;
 		border-radius: 50%;
 		margin-right: 10px;
 	}
-	.jiedan{
+
+	.jiedan {
 		color: #6E6D7A;
 		font-family: PingFang SC;
 		font-weight: regular;
@@ -198,30 +341,37 @@
 		line-height: normal;
 		letter-spacing: 0px;
 	}
-	.rightFirstImg{
-		width: 100px;height: 100px;margin-top: 30px;border: 1px solid #F4F4F4;
+
+	.rightFirstImg {
+		width: 100px;
+		height: 100px;
+		margin-top: 30px;
+		border: 1px solid #F4F4F4;
 		border-radius: 50%;
 	}
-	.taskContent{
+
+	.taskContent {
 		color: #6E6D7A;
 		font-family: PingFang SC;
 		font-weight: medium;
 		font-size: 16px;
 		letter-spacing: 0px;
-		white-space:nowrap;
-		overflow:hidden;
-		text-overflow:ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
 		width: 141px;
 		margin-right: 43px;
 	}
-	.taskPrice{
+
+	.taskPrice {
 		color: #EA4C89;
 		font-family: PingFang SC;
 		font-weight: medium;
 		font-size: 16px;
 		letter-spacing: 0px;
 	}
-	.tuijian{
+
+	.tuijian {
 		color: #262626;
 		font-family: PingFang SC;
 		font-weight: bold;
@@ -229,7 +379,8 @@
 		line-height: normal;
 		letter-spacing: 0px;
 	}
-	.huanBtn{
+
+	.huanBtn {
 		border-radius: 18px;
 		background: #FFFFFF;
 		border: 1px solid #E0E0E0;
@@ -243,9 +394,10 @@
 		letter-spacing: 0px;
 		text-align: center;
 		margin-left: 109px;
-		
+
 	}
-	.rightFirstName{
+
+	.rightFirstName {
 		color: #6E6D7A;
 		font-family: PingFang SC;
 		font-weight: medium;
@@ -254,7 +406,8 @@
 		letter-spacing: 0px;
 		margin: 20px 0px;
 	}
-	.liulan{
+
+	.liulan {
 		width: 140px;
 		height: 40px;
 		border-radius: 8px;
@@ -268,7 +421,8 @@
 		text-align: center;
 		margin-top: 25px;
 	}
-	.taskBTn{
+
+	.taskBTn {
 		width: 100px;
 		height: 36px;
 		border-radius: 8px;
@@ -282,7 +436,8 @@
 		text-align: center;
 		line-height: 36px;
 	}
-	.orderMiaoShu{
+
+	.orderMiaoShu {
 		width: 875px;
 		height: 100px;
 		color: #6E6D7A;
@@ -298,13 +453,15 @@
 		text-overflow: ellipsis;
 		margin-top: 10px;
 	}
-	.line{
+
+	.line {
 		background: #E8E8E8;
 		width: 875px;
 		height: 0.5px;
 		margin-top: 94px;
 	}
-	.fujian{
+
+	.fujian {
 		border-radius: 2px;
 		background: #FFFFFF;
 		border: 1px solid #E8E8E8;
@@ -318,6 +475,7 @@
 		letter-spacing: 0px;
 		padding: 2px 5px;
 	}
+
 	.jinengLabel {
 		border-radius: 4px;
 		border: 0.5px solid #F0F0F0;
@@ -333,6 +491,7 @@
 		margin-right: 10px;
 		padding: 0 4px;
 	}
+
 	.dai {
 		border-radius: 11px;
 		background: linear-gradient(180deg, #FF9AC1 0%, #EA4C89 100%);
@@ -405,7 +564,7 @@
 	.mainFirstWarp {
 		width: 955px;
 		height: 720px;
-		position: relative;	
+		position: relative;
 	}
 
 	.mainSecondWarp {
@@ -413,6 +572,9 @@
 		height: 288px;
 		margin-top: 24px;
 		margin-bottom: 50px;
+		padding-left: 46px;
+		padding-right: 53px;
+		box-sizing: border-box;
 	}
 
 	.backgroundWhite {
