@@ -5,12 +5,12 @@
 			<div class="mainFirstWarp backgroundWhite">
 				<div style="margin-left: 40px;">
 					<div style="padding-top: 30px;display: flex;align-items: center;position: relative;">
-						<span class="orderInfoTitle">需要做一套嵌入式软件的Web页面</span>
+						<span class="orderInfoTitle">{{hireMission.missionName}}</span>
 						<div class="dai">代</div>
-						<img src="../../assets/1.jpg" style="width: 58px;height: 22px;" />
+						<img src="../../assets/recruit.gif" style="width: 58px;height: 22px;" />
 						<div class="commonText"
 							style="display: flex;align-items: center;position: absolute;right: 40px;">
-							<span>任务编号：23920392</span>
+							<span>任务编号：{{hireMission.missionId}}</span>
 							<span class="share">
 								<i class="iconfont icon-fenxiang"></i>
 								分享
@@ -22,7 +22,7 @@
 							<i class="el-icon-location"></i>中国-深圳
 						</span>
 						<span class="commonText" style="color: #6E6D7A;margin-right: 40px;">
-							<i class="el-icon-watch" style="color: #EA4C89;"></i>发布于 2分钟前
+							<i class="el-icon-watch" style="color: #EA4C89;"></i>发布于 {{hireMission.releaseDate}}
 						</span>
 						<span class="commonText" style="color: #6E6D7A;">接单要求：</span>
 						<span class="commonText" style="color: #595959;margin-right: 40px;">个人</span>
@@ -31,21 +31,19 @@
 					</div>
 					<div style="display: flex;align-items: center;margin-top: 60px;">
 						<span class="commonText">预计时间：</span>
-						<span class="commonText" style="font-weight: medium;font-size: 20px;">60天</span>
+						<span class="commonText" style="font-weight: medium;font-size: 20px;">{{hireMission.missionCycle}}</span>
 					</div>
 					<div style="display: flex;align-items: center;margin-top: 10px;">
 						<span class="commonText">预计价格：</span>
-						<span class="commonText" style="font-weight: medium;font-size: 20px;">8～ 10万</span>
+						<span class="commonText" style="font-weight: medium;font-size: 20px;">{{hireMission.missionBudgets}}</span>
 					</div>
 					<div style="display: flex;align-items: center;margin-top: 10px;">
 						<span class="commonText">任务标签：</span>
-						<div class="jinengLabel" v-for="(item) in 3">PHP</div>
+						<div class="jinengLabel" v-for="(item,i) in missionType" :key="i">{{item}}</div>
 					</div>
 					<div class="orderInfoTitle" style="color: #262626;margin-top: 61px;">任务描述：</div>
 					<div class="orderMiaoShu">
-						项目:需要做一套嵌入式软件的Web页面
-						地区：湖北武汉
-						需求：需要做一套嵌入式软件的Web页面----无需反复确认需求及重新设计，已有详细参考模板可供参考，只需少数功能按钮重新合并调整。
+						{{hireMission.missionProfile}}
 					</div>
 					<div style="margin-top: 60px;">
 						<span class="orderInfoTitle" style="#262626">附件：</span>
@@ -169,7 +167,8 @@
 		name: 'orderHire',
 		data() {
 			return {
-				
+				hireMission:{} ,//任务详情
+				missionType:[]
 			}
 		},
 		computed: {
@@ -181,7 +180,8 @@
 				let missionId = this.$route.query.missionId
 				taskInfo(missionId).then(res => {
 					if (res.data.code === 200) {
-						console.log(res)
+						this.hireMission = res.data.data.hireMission
+						this.missionType = res.data.data.hireMission.missionType.split(',')
 					}
 				})
 			}

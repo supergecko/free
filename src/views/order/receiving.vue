@@ -7,7 +7,7 @@
 					<div style="padding-top: 30px;display: flex;align-items: center;position: relative;">
 						<span class="orderInfoTitle">{{hireMission.missionName}}</span>
 						<div class="dai">代</div>
-						<img src="../../assets/1.jpg" style="width: 58px;height: 22px;" />
+						<img src="../../assets/recruit.gif" style="width: 58px;height: 22px;" />
 						<div class="commonText"
 							style="display: flex;align-items: center;position: absolute;right: 40px;">
 							<span>任务编号：{{hireMission.missionId}}</span>
