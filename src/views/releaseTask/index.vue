@@ -154,7 +154,7 @@
 		},
 		computed: {
 			imgUploadSrc: function() {
-				return process.env.VUE_APP_URL + 'common/upload'
+				return process.env.VUE_APP_URL + '/common/upload'
 			}
 		},
 		created() {
@@ -238,6 +238,17 @@
 				})
 				console.log(this.form.fileList)
 			},
+			// handleSuccess(response, file, fileList){
+			//       this.details.push(response.url)
+			//       this.form.missionAttachments = this.details.toString()
+			//     },
+			//     handleRemove(file, fileList) {
+			//       for(var i = 0 ; i <this.details.length; i++){
+			//         if(file.response.url == this.details[i]){
+			//           this.details.splice(i,1)
+			//         }
+			//       }
+			//     }
 			handleSuccess(file){
 				this.form.fileList.push(file.url)
 				console.log(this.form.fileList)

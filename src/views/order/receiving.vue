@@ -134,7 +134,7 @@
 
 			</div>
 		</div>
-
+		
 		<el-dialog :visible.sync="dialogFormVisible" :show-close="false" class="myDialogWarp" width="802px">
 			<div>
 				<div class="dialogTitle">投标竞价</div>
@@ -163,10 +163,10 @@
 					<el-form-item label="联系方式" prop="phone" label-width="140px">
 						<el-input v-model="form.phone" style="width: 343px;" placeholder="填写联系方式方便雇主联系"></el-input>
 					</el-form-item>
-					<el-form-item  label-width="140px">
+					<el-form-item label-width="140px">
 						<div style="color: #6E6D7A;;">注：您的投标信息仅雇主可见</div>
 					</el-form-item>
-					<el-form-item  label-width="140px">
+					<el-form-item label-width="140px">
 						<div style="display: flex;">
 							<div class="jingbiaoBtb">提交竞标</div>
 							<div class="cancel" @click="dialogFormVisible = false">取消</div>
@@ -174,8 +174,9 @@
 					</el-form-item>
 				</el-form>
 			</div>
-			
 		</el-dialog>
+		
+		<!-- <el-upload action="" :file-list="objectValue.fileInfoList" :on-preview="handlePreview" disabled /> -->
 	</div>
 </template>
 
@@ -193,11 +194,11 @@
 				hireMission: {}, //任务详情
 				missionType: [],
 				form: {
-					method: '',//承接方式
-					money: '',//报价
-					cycle:'',//周期
-					demand:'',//补充说明
-					phone:''//联系方式
+					method: '', //承接方式
+					money: '', //报价
+					cycle: '', //周期
+					demand: '', //补充说明
+					phone: '' //联系方式
 				},
 				formLabelWidth: '120px',
 				dialogFormVisible: false,
@@ -216,6 +217,23 @@
 						this.missionType = res.data.data.hireMission.missionType.split(',')
 					}
 				})
+			},
+			// 文件下载
+			handlePreview(file) {
+				if (!file.url) {
+					this.$message.error('下载失败')
+					return
+				}
+				const type = file.url.split('.')[4]
+				// 判断文件类型
+				if (type === 'doc' || type === 'docx' || type === 'xlsx' || type === 'xls' || type === 'ppt' || type ===
+					'pptx') {
+					// 在当前浏览器直接下载
+					document.location.href = file.url
+				} else {
+					// 图片在浏览器打开 新的页面展示
+					window.open(file.url, 'hello')
+				}
 			}
 		},
 		created() {
@@ -231,13 +249,15 @@
 		display: flex;
 		justify-content: space-between;
 	}
+
 	.myDialogWarp .el-input-group__append,
 	.el-input-group__prepend {
 		color: #353535;
 		border: 0px;
 		background-color: #F3F3F4;
 	}
-	.myDialogWarp .jingbiaoBtb{
+
+	.myDialogWarp .jingbiaoBtb {
 		border-radius: 8px;
 		background: #EA4C89;
 		width: 240px;
@@ -251,7 +271,8 @@
 		text-align: center;
 		margin-right: 32px;
 	}
-	.myDialogWarp .cancel{
+
+	.myDialogWarp .cancel {
 		width: 180px;
 		height: 40px;
 		border-radius: 8px;
@@ -264,16 +285,19 @@
 		letter-spacing: 0px;
 		text-align: center;
 	}
+
 	.myDialogWarp .el-textarea__inner {
 		height: 100%;
 		background: #F3F3F4;
 		border-radius: 4px;
 	}
+
 	.myDialogWarp .el-dialog {
 		border-radius: 16px;
 		font-size: 16px !important;
 	}
-	.myDialogWarp .dialogTitle{
+
+	.myDialogWarp .dialogTitle {
 		color: #262626;
 		font-family: PingFang SC;
 		font-weight: bold;
@@ -283,13 +307,16 @@
 		margin-left: 146px;
 		margin-bottom: 27px;
 	}
+
 	.myDialogWarp .el-dialog__header {
 		padding: 0px !important;
 	}
+
 	.myDialogWarp .el-dialog__body {
 		padding: 0px !important;
 		height: 680px;
 	}
+
 	.toubiaotitle {
 		border-radius: 2px;
 		color: #000000A5;
