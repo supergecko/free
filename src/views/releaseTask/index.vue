@@ -37,7 +37,6 @@
 							</el-upload>
 						</div>
 					</div>
-
 				</el-form-item>
 				<el-form-item label="金额预算" prop="money">
 					<el-input placeholder="输入价格" v-model="form.money" style="width: 228px;">

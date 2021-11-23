@@ -56,19 +56,19 @@
 					<div class="line"></div>
 					<div style="display: flex; position: absolute; left: 0px; bottom: 35px;align-items: center;">
 						<div class="receivingTag">
-							<img src="../../assets/loginOut.png" style="width: 17.5px;height: 17.5px;" />
+							<img src="../../assets/fail.png" style="width: 17.5px;height: 17.5px;" />
 							<div style="margin-left: 5px;">无法实现 0</div>
 						</div>
 						<div class="receivingTag">
-							<img src="../../assets/loginOut.png" style="width: 17.5px;height: 17.5px;" />
+							<img src="../../assets/money.png" style="width: 17.5px;height: 17.5px;" />
 							<div style="margin-left: 5px;">预算太少 0</div>
 						</div>
 						<div class="receivingTag">
-							<img src="../../assets/loginOut.png" style="width: 17.5px;height: 17.5px;" />
+							<img src="../../assets/taskReal.png" style="width: 17.5px;height: 17.5px;" />
 							<div style="margin-left: 5px;">任务不真实 0</div>
 						</div>
 						<div class="receivingTag">
-							<img src="../../assets/loginOut.png" style="width: 17.5px;height: 17.5px;" />
+							<img src="../../assets/xuqiu.png" style="width: 17.5px;height: 17.5px;" />
 							<div style="margin-left: 5px;">需求不详细 0</div>
 						</div>
 						<div class="jiedan" style="margin-right: 20px;margin-left: 139px;">

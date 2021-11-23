@@ -81,18 +81,18 @@
 					<el-form-item label="地理位置">
 						<div style="display: flex;margin-bottom: 10px;">
 							<el-select v-model="form.country" style="width: 106px;margin-right: 10px;">
-								<el-option :label="item.districtName" :value="i" v-for="(item,i) in allCityList"
+								<el-option :label="item.districtName" :value="item.districtName" v-for="(item,i) in allCityList"
 									:key="i"></el-option>
 							</el-select>
 							<el-select v-model="form.province" style="width: 106px;margin-right: 5px;"
 								@change="changeProvinceIndex">
-								<el-option :label="item.districtName" :value="i" v-for="(item,i) in provinceList"
+								<el-option :label="item.districtName" :value="item.districtName" v-for="(item,i) in provinceList"
 									:key="i">
 								</el-option>
 							</el-select>
 							<div style="margin-right: 21px;">省</div>
 							<el-select v-model="form.city" style="width: 106px;margin-right: 5px;">
-								<el-option :label="item.districtName" :value="i" v-for="(item,i) in cityList" :key="i">
+								<el-option :label="item.districtName" :value="item.districtName" v-for="(item,i) in cityList" :key="i">
 								</el-option>
 							</el-select>
 							<div>市</div>
@@ -162,7 +162,8 @@
 <script>
 	import {
 		cityInformation,
-		uploadUserInfo
+		uploadUserInfo,
+		userId
 	} from '@/api/user.js'
 	import {
 		mapState
@@ -171,7 +172,7 @@
 		computed: {
 			...mapState(['userInfo']), // 读取用户信息
 			imgUploadSrc: function() {
-				return process.env.VUE_APP_URL + 'common/upload'
+				return process.env.VUE_APP_URL + '/common/upload'
 			}
 		},
 		data() {
@@ -248,15 +249,13 @@
 			this.getCity()
 		},
 		watch: {
-			countryIndex: {
-				handler(val, oldVal) {
-					this.provinceList = this.allCityList[val].children
-				},
-				deep: true //true 深度监听
-			},
 			provinceIndex: {
 				handler(val, oldVal) {
-					this.cityList = this.allCityList[this.countryIndex].children[val].children
+					this.provinceList.forEach((item,i)=>{
+						if(item.districtName == val) {
+							this.cityList = this.provinceList[i].children
+						}
+					})
 				},
 				deep: true //true 深度监听
 			}
@@ -279,6 +278,11 @@
 				cityInformation().then(res => {
 					this.allCityList = res.data.data
 					this.provinceList = res.data.data[0].children
+					this.provinceList.forEach((item,i)=>{
+						if(item.districtName == this.form.province) {
+							this.cityList = this.provinceList[i].children
+						}
+					})
 				})
 			},
 			onSubmit() {
@@ -299,9 +303,17 @@
 				}
 				return isJPG && isLt2M;
 			},
+			getUserInfo(){
+				let Id = this.userInfo.user.userId
+				userId(Id).then(res=>{
+					this.$store.commit('setUserInfo',res.data.data)
+					this.$router.push('/userInfo')
+				})
+			},
 			//更新用户信息
 			uploadUserInfo() {
 				let data = {
+					userId:this.userInfo.user.userId,
 					userAvatar: this.form.imageUrl, //头像
 					nickname: this.form.userName, //名称
 					gender: this.form.sex, // 性别
@@ -310,14 +322,14 @@
 					userMail: this.form.email, //邮箱
 					userWechat: this.form.contact == '1' ? this.form.otherContact : null, //用户微信
 					userQq: this.form.contact == '2' ? this.form.otherContact : null, //用户QQ
-					address: this.form.country + this.form.province + this.form.city + this.form.area, //地区
+					address: this.form.province+'-'+this.form.city+'-'+this.form.area, //地区
 					personalProfile: this.form.desc, //个人简介
 					workLinks: this.form.workLink, //作品链接
 					personalSite: this.form.personalSrc, //个人网站
 					workingMethod: this.form.workMode, //工作方式
 					//experience:this.form.experience//工作经验
 					specializedSkills: this.form.skills, //擅长技能
-					//goodDeom:this.form.goodDeom//优秀作品
+					specializedProjects:this.form.goodDeom//优秀作品
 				}
 				uploadUserInfo(data).then(res => {
 					if (res.data.code === 200) {
@@ -325,6 +337,7 @@
 							type: 'success',
 							message: '更新成功'
 						})
+						this.getUserInfo()
 					}
 				})
 			}

@@ -74,7 +74,7 @@ export const cityInformation = data => {
 //更新用户信息
 export const uploadUserInfo = (data) => {
 	return request({
-		method: 'put',
+		method: 'post',
 		url: '/api/user/update',
 		data
 	})
