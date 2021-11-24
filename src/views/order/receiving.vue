@@ -117,7 +117,7 @@
 					<img src="../../assets/orderInfo/shen.png" style="width: 30px;height: 30px;" />
 					<img src="../../assets/orderInfo/notShen.png" style="width: 30px;height: 30px;" v-if="false" />
 				</div>
-				<div class="liulan">查看联系方式</div>
+				<div class="liulan" @click="dialogPhoneVisible = true">查看联系方式</div>
 			</div>
 			<div class="rightSecondWarp backgroundWhite">
 				<div style="display: flex;align-items: center;padding-top: 20px;padding-left: 28px;">
@@ -176,6 +176,18 @@
 			</div>
 		</el-dialog>
 		
+		<el-dialog :visible.sync="dialogPhoneVisible" :show-close="false" class="myDialogPhoneWarp" width="753px">
+			<div style="position: relative;display: flex;flex-direction: column;justify-content: center;align-items: center;">
+				<img src="../../assets/close.png" style="width: 24px;height: 24px;position: absolute;top: 39px;right: 72px;" @click="dialogPhoneVisible = false"/>
+				<div style="display: flex;align-items: center;justify-content: center;padding-top: 74px;">
+					<img src="../../assets/phone.png" style="width: 24px;height: 24px;margin-right: 2px;" />
+					<div style="color: #EA4C89;">{{userInfo.user.userPhone}}</div>
+				</div>
+				<div style="width: 611px;height: 1px;background: #979797;opacity: 0.2;margin-top: 41px;"></div>
+				<div style="margin-bottom: 8px;color: #6E6D7A;margin-top: 37px;" >声明：</div>
+				<div style="width: 576px;line-height: normal;color: #6E6D7A;">为了安全起见，不要轻易与卖家进行线下交易；联系时请告知对方来自于Free星球平台，或发送Free星球平台信息链接；非平台线上交易的项目，出现任何后果均与Free星球无关；无论卖家以何理由要求线下交易的，请联系管理举报。</div>
+			</div>
+		</el-dialog>
 		<!-- <el-upload action="" :file-list="objectValue.fileInfoList" :on-preview="handlePreview" disabled /> -->
 	</div>
 </template>
@@ -202,6 +214,7 @@
 				},
 				formLabelWidth: '120px',
 				dialogFormVisible: false,
+				dialogPhoneVisible:false
 			}
 		},
 		computed: {
@@ -296,7 +309,10 @@
 		border-radius: 16px;
 		font-size: 16px !important;
 	}
-
+	.myDialogPhoneWarp .el-dialog {
+		border-radius: 16px;
+		font-size: 16px !important;
+	}
 	.myDialogWarp .dialogTitle {
 		color: #262626;
 		font-family: PingFang SC;
@@ -311,12 +327,18 @@
 	.myDialogWarp .el-dialog__header {
 		padding: 0px !important;
 	}
-
+	.myDialogPhoneWarp .el-dialog__header {
+		padding: 0px !important;
+	}
+	
 	.myDialogWarp .el-dialog__body {
 		padding: 0px !important;
 		height: 680px;
 	}
-
+	.myDialogPhoneWarp .el-dialog__body {
+		padding: 0px !important;
+		height: 353px;
+	}
 	.toubiaotitle {
 		border-radius: 2px;
 		color: #000000A5;
