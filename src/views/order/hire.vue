@@ -45,21 +45,22 @@
 					<div class="orderMiaoShu">
 						{{hireMission.missionProfile}}
 					</div>
-					<div style="margin-top: 60px;">
+					<div style="margin-top: 60px;display: flex;">
 						<span class="orderInfoTitle" style="#262626">附件：</span>
-						<span class="fujian">
-							<i class="el-icon-link" style="color: #EA4C89;margin-right: 5px;"></i>查看附件
+						<span class="fujian" v-if="!fileInfoList">
+							<i class="el-icon-link" style="color: #EA4C89;margin-right: 5px;"></i>暂无附件
 						</span>
+						<el-upload action="" :file-list="fileInfoList" :on-preview="handlePreview" disabled  v-else/>
 					</div>
 					<div class="line"></div>
 					<div style="display: flex; position: absolute; right: 40px; bottom: 35px;">
 						<div class="taskBTn" style="color: #EA4C89;margin-right: 20px;">
 							放弃任务
 						</div>
-						<div class="taskBTn" style="color: #EA4C89;">
+						<!-- <div class="taskBTn" style="color: #EA4C89;">
 							<i class="el-icon-edit"></i>
 							修改任务
-						</div>
+						</div> -->
 					</div>
 				</div>
 			</div>
@@ -168,7 +169,8 @@
 		data() {
 			return {
 				hireMission:{} ,//任务详情
-				missionType:[]
+				missionType:[],
+				fileInfoList:[]
 			}
 		},
 		computed: {
@@ -182,8 +184,28 @@
 					if (res.data.code === 200) {
 						this.hireMission = res.data.data.hireMission
 						this.missionType = res.data.data.hireMission.missionType.split(',')
+						this.fileInfoList =  res.data.data.missionAttachments
 					}
 				})
+			},
+			// 文件下载
+			handlePreview(file) {
+				console.log(file)
+				if (!file.url) {
+					this.$message.error('下载失败')
+					return
+				}
+				const type = file.url.split('.')[4]
+				console.log(type)
+				// 判断文件类型
+				if (type === 'doc' || type === 'docx' || type === 'xlsx' || type === 'xls' || type === 'ppt' || type ===
+					'pptx') {
+					// 在当前浏览器直接下载
+					document.location.href = file.url
+				} else {
+					// 图片在浏览器打开 新的页面展示
+					window.open(file.url, 'Img')
+				}
 			}
 		},
 		created() {

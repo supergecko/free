@@ -47,11 +47,12 @@
 					<div class="orderMiaoShu">
 						{{hireMission.missionProfile}}
 					</div>
-					<div style="margin-top: 60px;">
-						<span class="orderInfoTitle" style="#262626">附件：</span>
-						<span class="fujian">
-							<i class="el-icon-link" style="color: #EA4C89;margin-right: 5px;"></i>查看附件
+					<div style="margin-top: 60px;display: flex;">
+						<div class="orderInfoTitle" style="#262626">附件：</div>
+						<span class="fujian" v-if="!fileInfoList">
+							<i class="el-icon-link" style="color: #EA4C89;margin-right: 5px;"></i>暂无附件
 						</span>
+						<el-upload action="" :file-list="fileInfoList" :on-preview="handlePreview" disabled  v-else/>
 					</div>
 					<div class="line"></div>
 					<div style="display: flex; position: absolute; left: 0px; bottom: 35px;align-items: center;">
@@ -85,7 +86,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="mainSecondWarp backgroundWhite">
+			<div class="mainSecondWarp backgroundWhite" v-if="false">
 				<div style="display: flex;align-items: center;justify-content: space-between;padding-top: 34px;">
 					<div style="font-weight: medium;font-size: 20px;">我的投标</div>
 					<div>
@@ -188,7 +189,6 @@
 				<div style="width: 576px;line-height: normal;color: #6E6D7A;">为了安全起见，不要轻易与卖家进行线下交易；联系时请告知对方来自于Free星球平台，或发送Free星球平台信息链接；非平台线上交易的项目，出现任何后果均与Free星球无关；无论卖家以何理由要求线下交易的，请联系管理举报。</div>
 			</div>
 		</el-dialog>
-		<!-- <el-upload action="" :file-list="objectValue.fileInfoList" :on-preview="handlePreview" disabled /> -->
 	</div>
 </template>
 
@@ -214,7 +214,8 @@
 				},
 				formLabelWidth: '120px',
 				dialogFormVisible: false,
-				dialogPhoneVisible:false
+				dialogPhoneVisible:false,
+				fileInfoList:[]
 			}
 		},
 		computed: {
@@ -228,16 +229,19 @@
 					if (res.data.code === 200) {
 						this.hireMission = res.data.data.hireMission
 						this.missionType = res.data.data.hireMission.missionType.split(',')
+						this.fileInfoList =  res.data.data.missionAttachments
 					}
 				})
 			},
 			// 文件下载
 			handlePreview(file) {
+				console.log(file)
 				if (!file.url) {
 					this.$message.error('下载失败')
 					return
 				}
 				const type = file.url.split('.')[4]
+				console.log(type)
 				// 判断文件类型
 				if (type === 'doc' || type === 'docx' || type === 'xlsx' || type === 'xls' || type === 'ppt' || type ===
 					'pptx') {
@@ -245,7 +249,7 @@
 					document.location.href = file.url
 				} else {
 					// 图片在浏览器打开 新的页面展示
-					window.open(file.url, 'hello')
+					window.open(file.url, 'Img')
 				}
 			}
 		},
@@ -614,12 +618,12 @@
 		width: 955px;
 		height: 720px;
 		position: relative;
+		margin-bottom: 24px;
 	}
 
 	.mainSecondWarp {
 		width: 955px;
 		height: 288px;
-		margin-top: 24px;
 		margin-bottom: 50px;
 		padding-left: 46px;
 		padding-right: 53px;
