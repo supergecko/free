@@ -85,8 +85,8 @@
 							message: '图形验证码不能为空'
 						},
 						{
-							min: 5,
-							max: 5,
+							min: 4,
+							max: 4,
 							message: '长度在 5 个字符',
 							trigger: 'blur'
 						}
