@@ -10,7 +10,7 @@
 						<img src="../../assets/recruit.gif" style="width: 58px;height: 22px;" />
 						<div class="commonText"
 							style="display: flex;align-items: center;position: absolute;right: 40px;">
-							<span>任务编号：{{hireMission.missionId}}</span>
+							<span>任务编号：{{hireMission.missionNumber}}</span>
 							<span class="share">
 								<i class="iconfont icon-fenxiang"></i>
 								分享
@@ -25,7 +25,9 @@
 							<i class="el-icon-watch" style="color: #EA4C89;"></i>发布于 {{hireMission.releaseDate}}
 						</span>
 						<span class="commonText" style="color: #6E6D7A;">接单要求：</span>
-						<span class="commonText" style="color: #595959;margin-right: 40px;">个人</span>
+						<span class="commonText" style="color: #595959;margin-right: 40px;">
+							{{hireMission.biddingMethod=='0'? '个人/团队':hireMission.biddingMethod=='1'? '个人' : '团队'}}
+						</span>
 						<span class="commonText" style="color: #6E6D7A;">投标数：</span>
 						<span class="commonText" style="color: #595959;">{{hireMission.tendersNum}}</span>
 					</div>
@@ -86,26 +88,26 @@
 					</div>
 				</div>
 			</div>
-			<div class="mainSecondWarp backgroundWhite" v-if="false">
+			<div class="mainSecondWarp backgroundWhite" v-if="tenders.length>0">
 				<div style="display: flex;align-items: center;justify-content: space-between;padding-top: 34px;">
 					<div style="font-weight: medium;font-size: 20px;">我的投标</div>
 					<div>
-						<div class="toubiaotitle">参与投标号：82910228</div>
-						<div class="toubiaotitle" style="margin-left: 20px;">提交时间：2021-03-24 17:02</div>
+						<div class="toubiaotitle">参与投标号：{{tenders[0].tenderNumber}}</div>
+						<div class="toubiaotitle" style="margin-left: 20px;">提交时间：{{tenders[0].tenderTime}}</div>
 					</div>
 				</div>
 				<div style="margin-top: 36px;font-size: 18px;color: #6E6D7A;line-height: normal;">
-					200人团队，专注于网页开发，行业20年经验，200人团队，专注于网页开发，行业20年经验，200人团队，专注于网页开发，行业20年经验，200人团队，专注于网页开发，行业20年经验</div>
+					{{tenders[0].tenderDetails}}</div>
 				<div style="margin-top: 50px;font-size: 14px;color: #6E6D7A;display: flex;justify-content: center;">
-					<div style="margin-right: 51px;">工期: <span style="font-size: 20px;color: #EA4C89;">30天</span></div>
-					<div>任务标价：<span style="font-size: 20px;color: #EA4C89;">20000元</span></div>
+					<div style="margin-right: 51px;">工期: <span style="font-size: 20px;color: #EA4C89;">{{tenders[0].tenderDays}}天</span></div>
+					<div>任务标价：<span style="font-size: 20px;color: #EA4C89;">{{tenders[0].tenderAmount}}元</span></div>
 				</div>
 			</div>
 		</div>
 		<div class="orderRightWarp">
 			<div class="rightFirstWarp backgroundWhite">
-				<img src="../../assets/1.jpg" class="rightFirstImg" />
-				<div class="rightFirstName">张飞</div>
+				<img :src="userAvatar" class="rightFirstImg" />
+				<div class="rightFirstName">{{nickName}}</div>
 				<div>
 					<img src="../../assets/orderInfo/phone.png" style="width: 30px;height: 30px;margin-right: 20px;" />
 					<img src="../../assets/orderInfo/notPhone.png" style="width: 30px;height: 30px;margin-right: 20px;"
@@ -169,7 +171,7 @@
 					</el-form-item>
 					<el-form-item label-width="140px">
 						<div style="display: flex;">
-							<div class="jingbiaoBtb">提交竞标</div>
+							<div class="jingbiaoBtb" @click="tenderMission()">提交竞标</div>
 							<div class="cancel" @click="dialogFormVisible = false">取消</div>
 						</div>
 					</el-form-item>
@@ -197,7 +199,7 @@
 		mapState
 	} from 'vuex'
 	import {
-		taskInfo
+		taskInfo,tender
 	} from '@/api/task'
 	export default {
 		name: 'orderReceiving',
@@ -215,21 +217,49 @@
 				formLabelWidth: '120px',
 				dialogFormVisible: false,
 				dialogPhoneVisible:false,
-				fileInfoList:[]
+				fileInfoList:[],
+				nickName:'',//客户名称
+				userAvatar:'',//客户头像
+				tenders:[],//投标数组
+				
 			}
 		},
 		computed: {
 			...mapState(['userInfo']) // 读取用户信息
 		},
 		methods: {
+			//提交投标
+			tenderMission(){
+				this.dialogFormVisible = false
+				let data ={
+					tenderIdentity:this.form.method,
+					tenderAmount:this.form.money,
+					tenderDays:this.form.cycle,
+					contact:this.form.phone,
+					tenderDetails:this.form.demand,
+					missionId:this.$route.query.missionId,
+					userId:this.userInfo.user.userId
+				}
+				tender(data).then(res => {
+					if (res.data.code === 200) {
+						this.$message(res.data.msg)
+					}
+				})
+			},
 			// 任务详情
 			getMissionInfo() {
-				let missionId = this.$route.query.missionId
-				taskInfo(missionId).then(res => {
+				
+				let data ={
+					missionId:this.$route.query.missionId
+				}
+				taskInfo(data).then(res => {
 					if (res.data.code === 200) {
 						this.hireMission = res.data.data.hireMission
 						this.missionType = res.data.data.hireMission.missionType.split(',')
 						this.fileInfoList =  res.data.data.missionAttachments
+						this.nickName = res.data.data.nickName
+						this.userAvatar = res.data.data.userAvatar
+						this.tenders = res.data.data.tenders
 					}
 				})
 			},
@@ -400,6 +430,7 @@
 		height: 100px;
 		margin-top: 30px;
 		border: 1px solid #F4F4F4;
+		background: url('~@/assets/avatar.png') no-repeat;	
 		border-radius: 50%;
 	}
 

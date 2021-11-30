@@ -23,10 +23,11 @@ export const taskAdd = (data) => {
 }
 
 //任务详情查询
-export const taskInfo = (missionId) => {
+export const taskInfo = (params) => {
     return request({
         method: 'get',
-        url: `/api/mission/${missionId}`,
+        url: `/api/mission/info`,
+		params
     })
 }
 
@@ -35,5 +36,14 @@ export const getMissonType = () => {
     return request({
         method: 'get',
         url: `/api/mission/missionType`,
+    })
+}
+
+//任务投标
+export const tender = (data) => {
+    return request({
+        method: 'post',
+        url: `/api/mission/tender`,
+		data
     })
 }

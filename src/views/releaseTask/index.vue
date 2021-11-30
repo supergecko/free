@@ -250,8 +250,8 @@
 			//       }
 			//     }
 			handleSuccess(file){
-				this.form.fileList += file.url+','
-				// this.form.fileList.push(file.url)
+				// this.form.fileList += file.url+','
+				this.form.fileList.push(file.url)
 				console.log(this.form.fileList)
 			},
 			// 文件勾选触发验证

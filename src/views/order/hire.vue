@@ -10,7 +10,7 @@
 						<img src="../../assets/recruit.gif" style="width: 58px;height: 22px;" />
 						<div class="commonText"
 							style="display: flex;align-items: center;position: absolute;right: 40px;">
-							<span>任务编号：{{hireMission.missionId}}</span>
+							<span>任务编号：{{hireMission.missionNumber}}</span>
 							<span class="share">
 								<i class="iconfont icon-fenxiang"></i>
 								分享
@@ -25,9 +25,11 @@
 							<i class="el-icon-watch" style="color: #EA4C89;"></i>发布于 {{hireMission.releaseDate}}
 						</span>
 						<span class="commonText" style="color: #6E6D7A;">接单要求：</span>
-						<span class="commonText" style="color: #595959;margin-right: 40px;">个人</span>
+						<span class="commonText" style="color: #595959;margin-right: 40px;">
+							{{hireMission.biddingMethod=='0'? '个人/团队':hireMission.biddingMethod=='1'? '个人' : '团队'}}
+						</span>
 						<span class="commonText" style="color: #6E6D7A;">投标数：</span>
-						<span class="commonText" style="color: #595959;">24/50人</span>
+						<span class="commonText" style="color: #595959;">{{hireMission.tendersNum}}</span>
 					</div>
 					<div style="display: flex;align-items: center;margin-top: 60px;">
 						<span class="commonText">预计时间：</span>
@@ -66,10 +68,10 @@
 			</div>
 			<div class="mainSecondWarp backgroundWhite">
 				<div class="toubiaoTitle">投标列表</div>
-				<div class="bidItemWarp" v-for="(item) in 3">
+				<div class="bidItemWarp" v-for="(item,i) in tenders" :key="i">
 					<div style="display: flex;align-items: center;justify-content: space-between;">
 						<div style="display: flex;align-items: center;">
-							<img src="../../assets/1.jpg"
+							<img :src="item.avatar"
 								style="width: 50px;height: 50px;border-radius: 50%;margin-right: 10px;" />
 							<div>
 								<div style="display: flex;align-items: center;">
@@ -80,7 +82,7 @@
 										<span style="margin-left: 2px;">4.7</span>
 									</div>
 								</div>
-								<div class="bidContent">张飞 | 成员人数999</div>
+								<div class="bidContent">{{item.region}} | {{item.experience}}</div>
 							</div>
 						</div>
 						<div style="display: flex;align-items: center;">
@@ -93,31 +95,33 @@
 						<div style="position: relative;">
 							<div style="position: absolute;left: 60px;top: 10px;">
 								<span class="bidMainTextGray">工期：</span>
-								<span class="bidMainTextRed">30天</span>
+								<span class="bidMainTextRed">{{item.tenderDays}}天</span>
 							</div>
 							<div style="position: absolute;left: 197px;top: 10px;">
 								<span class="bidMainTextGray">任务标价：</span>
-								<span class="bidMainTextRed">320000元</span>
+								<span class="bidMainTextRed">{{item.tenderAmount}}元</span>
 							</div>
-							<div style="position: absolute;left: 482px;top: 12px;">
-								<span class="bidMainTextGray"
-									style="font-size: 12px;color: #000000A5;">参与投标号：82910228</span>
+							<div style="display: flex;position: absolute;top: 12px;right: 54px;">
+								<div style="margin-right: 10px;">
+									<span class="bidMainTextGray"
+										style="font-size: 12px;color: #000000A5;">参与投标号：{{item.tenderNumber}}</span>
+								</div>
+								<div>
+									<span class="bidMainTextGray" style="font-size: 12px;color: #000000A5;">提交时间：{{item.tenderTime}}</span>
+								</div>
 							</div>
-							<div style="position: absolute;left: 652px;top: 12px;">
-								<span class="bidMainTextGray" style="font-size: 12px;color: #000000A5;">提交时间：2021-03-24
-									17:02</span>
-							</div>
+							
 						</div>
 						<div class="bidMainTextGray" style="padding-top: 42px;padding-left: 60px;">投标说明：</div>
-						<div class="bidMainContent">200人团队，专注于网页开发，行业20年经验，200人团队，专注于网页开发，行业20年经验，200人团队，专注于网页开发，行业20年经验，200人团队，专注于网页开发</div>
+						<div class="bidMainContent">{{item.tenderDetails}}</div>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="orderRightWarp">
 			<div class="rightFirstWarp backgroundWhite">
-				<img src="../../assets/1.jpg" class="rightFirstImg" />
-				<div class="rightFirstName">张飞</div>
+				<img :src="userAvatar" class="rightFirstImg" />
+				<div class="rightFirstName">{{nickName}}</div>
 				<div>
 					<img src="../../assets/orderInfo/phone.png" style="width: 30px;height: 30px;margin-right: 20px;" />
 					<img src="../../assets/orderInfo/notPhone.png" style="width: 30px;height: 30px;margin-right: 20px;"
@@ -170,7 +174,10 @@
 			return {
 				hireMission:{} ,//任务详情
 				missionType:[],
-				fileInfoList:[]
+				fileInfoList:[],
+				nickName:'',//客户名称
+				userAvatar:'',//客户头像
+				tenders:[],//投标数组
 			}
 		},
 		computed: {
@@ -179,12 +186,17 @@
 		methods: {
 			// 任务详情
 			getMissionInfo() {
-				let missionId = this.$route.query.missionId
-				taskInfo(missionId).then(res => {
+				let data ={
+					missionId:this.$route.query.missionId
+				}
+				taskInfo(data).then(res => {
 					if (res.data.code === 200) {
 						this.hireMission = res.data.data.hireMission
 						this.missionType = res.data.data.hireMission.missionType.split(',')
 						this.fileInfoList =  res.data.data.missionAttachments
+						this.nickName = res.data.data.nickName
+						this.userAvatar = res.data.data.userAvatar
+						this.tenders = res.data.data.tenders
 					}
 				})
 			},
