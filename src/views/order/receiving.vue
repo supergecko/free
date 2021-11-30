@@ -180,11 +180,19 @@
 		</el-dialog>
 		
 		<el-dialog :visible.sync="dialogPhoneVisible" :show-close="false" class="myDialogPhoneWarp" width="753px">
-			<div style="position: relative;display: flex;flex-direction: column;justify-content: center;align-items: center;">
+			<div style="position: relative;display: flex;flex-direction: column;justify-content: center;align-items: center;padding-top: 69px;">
 				<img src="../../assets/close.png" style="width: 24px;height: 24px;position: absolute;top: 39px;right: 72px;" @click="dialogPhoneVisible = false"/>
-				<div style="display: flex;align-items: center;justify-content: center;padding-top: 74px;">
+				<div style="display: flex;align-items: center;justify-content: center;margin-top: 5px;" v-if="hireMission.phone">
 					<img src="../../assets/phone.png" style="width: 24px;height: 24px;margin-right: 2px;" />
-					<div style="color: #EA4C89;">{{userInfo.user.userPhone}}</div>
+					<div style="color: #EA4C89;">{{hireMission.phone}}</div>
+				</div>
+				<div style="display: flex;align-items: center;justify-content: center;margin-top: 5px;" v-if="hireMission.wechat">
+					<img src="../../assets/wechat.png" style="width: 24px;height: 24px;margin-right: 2px;" />
+					<div style="color: #EA4C89;">{{hireMission.wechat}}</div>
+				</div>
+				<div style="display: flex;align-items: center;justify-content: center;margin-top: 5px;" v-if="hireMission.qqNumber">
+					<img src="../../assets/QQ.png" style="width: 24px;height: 24px;margin-right: 2px;" />
+					<div style="color: #EA4C89;">{{hireMission.qqNumber}}</div>
 				</div>
 				<div style="width: 611px;height: 1px;background: #979797;opacity: 0.2;margin-top: 41px;"></div>
 				<div style="margin-bottom: 8px;color: #6E6D7A;margin-top: 37px;" >声明：</div>
